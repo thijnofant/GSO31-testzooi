@@ -7,12 +7,12 @@ package fontys.time;
 
 /**
  *
- * @author Thijn
+ * @author Robert
  */
 public class TimeSpan2 implements ITimeSpan {
 
     private ITime bt;
-    private long lenght;
+    private long length;
     
     public TimeSpan2(ITime bt, ITime et) {
         if (bt.compareTo(et) <= 0) {
@@ -20,48 +20,52 @@ public class TimeSpan2 implements ITimeSpan {
                     + bt + " must be earlier than end time " + et);
         }
         this.bt = bt;
-        //this.et = et;
+        this.length = this.bt.difference(et);
     }
 
     
     @Override
     public ITime getBeginTime() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.bt;
     }
 
     @Override
     public ITime getEndTime() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.bt.plus(this.length());
     }
 
     @Override
     public int length() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (int)this.length;
     }
 
     @Override
     public void setBeginTime(ITime beginTime) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.bt = beginTime;
     }
 
     @Override
     public void setEndTime(ITime endTime) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.length = this.bt.difference(endTime);
     }
 
     @Override
     public void move(int minutes) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.bt.plus(minutes);
     }
 
     @Override
     public void changeLengthWith(int minutes) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.length += minutes;
     }
 
     @Override
     public boolean isPartOf(ITimeSpan timeSpan) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.bt.compareTo(timeSpan.getBeginTime()) <= 0) {
+            return false;
+        }
+        //if (this.bt.)
+        return false;
     }
 
     @Override
