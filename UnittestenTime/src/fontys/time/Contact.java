@@ -7,7 +7,7 @@ package fontys.time;
 
 /**
  *
- * @author Thijn
+ * @author Robert
  */
 public class Contact {
     

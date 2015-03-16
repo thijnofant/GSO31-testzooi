@@ -127,7 +127,7 @@ public class TimeTest {
         Time time1 = new Time(2015,4,21,13,5);
         Time time2 = new Time(2015,4,21,13,10);
         Time time3 = new Time(2015,4,21,13,5);
-        assertEquals("Tijd 2 moet kleiner zijn dan tijd 1",-1,time1.compareTo(time2));
+        assertEquals("Tijd 2 moet groter zijn dan tijd 1",-1,time1.compareTo(time2));
         assertEquals("Tijd 1 moet kleiner zijn dan tijd 2",1,time2.compareTo(time1));
         assertEquals("De tijden moeten gelijk zijn",0, time1.compareTo(time3));
     }
