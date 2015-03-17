@@ -19,10 +19,9 @@ public class Contact {
     private String name;
     
     /**
-     * Deze klasse 
+     * This class holds the name of a contact and the appoinments he is part of..
      * 
      * @param name Name of this contact
-     * @return [return info]
      */
     public Contact(String name)
     {
@@ -30,10 +29,8 @@ public class Contact {
     }
     
     /**
-     * [Description]
      * 
-     * @param name [parameter1 info]
-     * @return [return info]
+     * @return Returns the name for this contact
      */
     public String getName()
     {
@@ -41,10 +38,10 @@ public class Contact {
     }
     
     /**
-     * [Description]
+     * This method adds a appointment to this contact's agenda.
      * 
-     * @param name [parameter1 info]
-     * @return [return info]
+     * @param a the appointment to be added.
+     * @return returns whether the method failed or succeeded.
      */
     public boolean addAppointment(Appointment a)
     {
@@ -52,10 +49,9 @@ public class Contact {
     }
     
     /**
-     * [Description]
+     * This method removes a appointment from this contact's agenda.
      * 
-     * @param name [parameter1 info]
-     * @return [return info]
+     * @param a the appointment to be removed.
      */
     public void removeAppointment(Appointment a)
     {
@@ -63,10 +59,9 @@ public class Contact {
     }
     
     /**
-     * [Description]
+     * This method returns all appointments in this contact's agende.
      * 
-     * @param name [parameter1 info]
-     * @return [return info]
+     * @return returns a Iterator of the agenda.
      */
     public Iterator<Appointment> appointments()
     {
