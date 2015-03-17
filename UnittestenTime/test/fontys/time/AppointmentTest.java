@@ -72,9 +72,9 @@ public class AppointmentTest {
         Contact test2 = new Contact("Pers2");
         Contact test3 = new Contact("Pers3");
         
-        testAppointment.addContact(test1);
-        testAppointment.addContact(test2);
-        testAppointment.addContact(test3);
+        assertTrue(testAppointment.addContact(test1));
+        assertTrue(testAppointment.addContact(test2));
+        assertTrue(testAppointment.addContact(test3));
         
         Iterator<Contact> Contacts = testAppointment.invitees();
         
@@ -89,6 +89,5 @@ public class AppointmentTest {
         Contacts = testAppointment.invitees();
         
         assertEquals("The right Contact was not retrieved", test2, Contacts.next());
-        
     }    
 }

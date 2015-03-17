@@ -5,7 +5,9 @@
  */
 package fontys.time;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -14,6 +16,8 @@ import java.util.Iterator;
 public class Appointment {
      
     private String subject;
+    private ITimeSpan timeSpan;
+    private List<Contact> Invitees;
  
     /**
      * In this class a appointment is kept. This can have any number of invited people. but doesn't need them.
@@ -22,6 +26,23 @@ public class Appointment {
      * @param timeSpan the lenght of this appointment. can not be empty
      */
     public Appointment(String subject, ITimeSpan timeSpan){
+        if (!(subject == null)) {
+            this.subject = subject;
+        }
+        else
+        {
+            this.subject = "";
+        }
+        
+        if (!(timeSpan == null)) {
+            this.timeSpan = timeSpan;
+        }
+        else
+        {
+            throw new IllegalArgumentException("The timespan can not be null");
+        }
+        
+        Invitees = new ArrayList<>();
     }
     
     /**
@@ -29,7 +50,7 @@ public class Appointment {
      * @return returns the subject of this appointment
      */
     public String getSubject(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.subject;
     }
     
     /**
@@ -37,7 +58,7 @@ public class Appointment {
      * @return returns the timespan of this appointment
      */
     public ITimeSpan getTimeSpan(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.timeSpan;
     }
     
     /**
@@ -45,8 +66,8 @@ public class Appointment {
      * 
      * @return returns the contacts that are invited
      */
-    public Iterator<Contact> invitees(){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Iterator<Contact> invitees(){        
+        return Invitees.iterator();
     }
     
     /**
@@ -56,7 +77,15 @@ public class Appointment {
      * @return returns if the method succeeded or failed
      */
     public boolean addContact(Contact c){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(c.addAppointment(this))
+        {
+            Invitees.add(c);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     
     /**
@@ -65,6 +94,8 @@ public class Appointment {
      * @param c The contact that is to be deleted.
      */
     public void removeContact(Contact c){
+        c.removeAppointment(this);
+        Invitees.remove(c);
     }
     
 }
