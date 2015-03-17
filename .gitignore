@@ -43,3 +43,4 @@ Temporary Items
 .apdisk
 *.properties
 UnittestenTime/nbproject/private/private.properties
+*.properties

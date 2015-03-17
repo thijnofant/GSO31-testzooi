@@ -22,36 +22,43 @@ public class AppointmentTest {
     public AppointmentTest() {
     }
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    public Time testTime1;
+    public Time testTime2;
+    public TimeSpan testTimeSpan;
+    public Appointment testAppointment;
     
     @Before
     public void setUp() {
+        testTime1 = new Time(2015,4,21,13,5);
+        testTime2 = new Time(2015,4,21,13,10);
+        testTimeSpan = new TimeSpan(testTime1, testTime2);
+        testAppointment = new Appointment("This is a test", testTimeSpan);
     }
-    
-    @After
-    public void tearDown() {
-    }
-
+       
     /**
      * Test of getSubject method, of class Appointment.
      */
     @Test
     public void testGetSubject() {
-        fail("The test case is a prototype.");
+        String result = "This is a test";
+        assertEquals("The Subject was not the expected Subject", result, testAppointment.getSubject());
     }
-
+    
     /**
      * Test of getTimeSpan method, of class Appointment.
      */
     @Test
     public void testGetTimeSpan() {
-        fail("The test case is a prototype.");
+        //Test to see if the timespan can be empty in the constructor.
+        try {
+            Appointment timenotright = new Appointment("Test Subject",null);
+            fail("There was no Exception thrown for the absence of a timespan");
+        } 
+        catch (IllegalArgumentException e) {
+        }
+        
+        //test to get the timespan from the Appointment made in the setUp()
+        assertEquals("The right Timespan was not retrieved", testTimeSpan, testAppointment.getTimeSpan());
     }
 
     /**
@@ -59,23 +66,29 @@ public class AppointmentTest {
      */
     @Test
     public void testInvitees() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addContact method, of class Appointment.
-     */
-    @Test
-    public void testAddContact() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of removeContact method, of class Appointment.
-     */
-    @Test
-    public void testRemoveContact() {
-        fail("The test case is a prototype.");
-    }
-    
+        
+        //testAddContacts;
+        Contact test1 = new Contact("Pers1");
+        Contact test2 = new Contact("Pers2");
+        Contact test3 = new Contact("Pers3");
+        
+        testAppointment.addContact(test1);
+        testAppointment.addContact(test2);
+        testAppointment.addContact(test3);
+        
+        Iterator<Contact> Contacts = testAppointment.invitees();
+        
+        assertEquals("The right Contact was not retrieved", test1, Contacts.next());
+        assertEquals("The right Contact was not retrieved", test2, Contacts.next());
+        assertEquals("The right Contact was not retrieved", test3, Contacts.next());
+        
+        //testRemoveContacts;
+        testAppointment.removeContact(test1);
+        testAppointment.removeContact(test3);
+        
+        Contacts = testAppointment.invitees();
+        
+        assertEquals("The right Contact was not retrieved", test2, Contacts.next());
+        
+    }    
 }
