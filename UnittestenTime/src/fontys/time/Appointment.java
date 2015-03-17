@@ -34,7 +34,7 @@ public class Appointment {
     
     /**
      * 
-     * @return [return info]
+     * @return returns the timespan of this appointment
      */
     public ITimeSpan getTimeSpan(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -43,7 +43,7 @@ public class Appointment {
     /**
      * This method gets all the invitees and gives them as a iterator
      * 
-     * @return [return info]
+     * @return returns the contacts that are invited
      */
     public Iterator<Contact> invitees(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -52,8 +52,8 @@ public class Appointment {
     /**
      * This method adds a contact that is to be invited.
      * 
-     * @param c [parameter1 info]
-     * @return [return info]
+     * @param c The contact that is to be added.
+     * @return returns if the method succeeded or failed
      */
     public boolean addContact(Contact c){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -62,7 +62,7 @@ public class Appointment {
     /**
      * This method uninvites a contact from this appointment
      * 
-     * @param c [parameter1 info]
+     * @param c The contact that is to be deleted.
      */
     public void removeContact(Contact c){
     }
