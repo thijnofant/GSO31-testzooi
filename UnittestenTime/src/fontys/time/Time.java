@@ -117,6 +117,6 @@ public class Time implements ITime {
     public int difference(ITime time) {
         Time t = (Time) time;
         // / 600000
-        return (int) ((this.gc.getTimeInMillis() - t.gc.getTimeInMillis()) / 60000);
+        return Math.abs((int) ((this.gc.getTimeInMillis() - t.gc.getTimeInMillis()) / 60000));
     }
 }
