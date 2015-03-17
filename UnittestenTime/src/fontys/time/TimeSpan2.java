@@ -22,7 +22,6 @@ public class TimeSpan2 implements ITimeSpan {
         this.bt = bt;
         this.length = this.bt.difference(et);
     }
-
     
     @Override
     public ITime getBeginTime() {
@@ -59,7 +58,7 @@ public class TimeSpan2 implements ITimeSpan {
 
     @Override
     public void move(int minutes) {
-        this.bt.plus(minutes);
+        this.bt = this.bt.plus(minutes);
     }
 
     @Override

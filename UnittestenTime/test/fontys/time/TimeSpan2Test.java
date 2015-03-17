@@ -85,7 +85,11 @@ public class TimeSpan2Test {
      * getEndTime(): ITime
      * @return the end time of this time span
      */
-        assertEquals("De eindtijd komt niet overeen met de verwachte tijd.",TestTime2, TestTimeSpan.getEndTime());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (jaar)",TestTime2.getYear(), TestTimeSpan.getEndTime().getYear());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (maand)",TestTime2.getMonth(), TestTimeSpan.getEndTime().getMonth());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (dag)",TestTime2.getDay(), TestTimeSpan.getEndTime().getDay());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (uur)",TestTime2.getHours(), TestTimeSpan.getEndTime().getHours());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (minuut)",TestTime2.getMinutes(), TestTimeSpan.getEndTime().getMinutes());
     }
     
     @Test
@@ -128,7 +132,11 @@ public class TimeSpan2Test {
         //test tijd na begintijd
         changedTime = new Time(2015,4,21,13,20);
         TestTimeSpan.setEndTime(changedTime);
-        assertEquals("De eindtijd komt niet overeen met de verwachte tijd.",changedTime, TestTimeSpan.getEndTime());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (jaar)",changedTime.getYear(), TestTimeSpan.getEndTime().getYear());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (maand)",changedTime.getMonth(), TestTimeSpan.getEndTime().getMonth());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (dag)",changedTime.getDay(), TestTimeSpan.getEndTime().getDay());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (uur)",changedTime.getHours(), TestTimeSpan.getEndTime().getHours());
+        assertEquals("De eindtijd komt niet overeen met de verwachte tijd. (minuut)",changedTime.getMinutes(), TestTimeSpan.getEndTime().getMinutes());
         
     }
     
@@ -236,7 +244,11 @@ public class TimeSpan2Test {
         TimeSpan2 timeSpanRes = new TimeSpan2(time1, time4);
         
         assertEquals("Er is iets niet goed gegaan met de union", timeSpanRes.getBeginTime(), timeSpan1.unionWith(timeSpan2).getBeginTime());
-        assertEquals("Er is iets niet goed gegaan met de union", timeSpanRes.getEndTime(), timeSpan1.unionWith(timeSpan2).getEndTime());
+        assertEquals("Er is iets niet goed gegaan met de union (jaar)", timeSpanRes.getEndTime().getYear(), timeSpan1.unionWith(timeSpan2).getEndTime().getYear());
+        assertEquals("Er is iets niet goed gegaan met de union (maand)", timeSpanRes.getEndTime().getMonth(), timeSpan1.unionWith(timeSpan2).getEndTime().getMonth());
+        assertEquals("Er is iets niet goed gegaan met de union (dag)", timeSpanRes.getEndTime().getDay(), timeSpan1.unionWith(timeSpan2).getEndTime().getDay());
+        assertEquals("Er is iets niet goed gegaan met de union (uur)", timeSpanRes.getEndTime().getHours(), timeSpan1.unionWith(timeSpan2).getEndTime().getHours());
+        assertEquals("Er is iets niet goed gegaan met de union (minuut", timeSpanRes.getEndTime().getMinutes(), timeSpan1.unionWith(timeSpan2).getEndTime().getMinutes());
         
         timeSpan1 = new TimeSpan2(time1, time3);
         timeSpan2 = new TimeSpan2(time2, time4);
@@ -264,7 +276,11 @@ public class TimeSpan2Test {
         TimeSpan2 timeSpanRes = new TimeSpan2(time3, time2);
         
         assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getBeginTime(), timeSpan1.intersectionWith(timeSpan2).getBeginTime());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime(), timeSpan1.intersectionWith(timeSpan2).getEndTime());
+        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getYear(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getYear());
+        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getMonth(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getMonth());
+        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getDay(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getDay());
+        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getHours(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getHours());
+        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getMinutes(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getMinutes());
         
         timeSpan1 = new TimeSpan2(time1, time3);
         timeSpan2 = new TimeSpan2(time2, time4);
