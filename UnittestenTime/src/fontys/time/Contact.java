@@ -6,6 +6,8 @@
 package fontys.time;
 
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,8 +17,8 @@ public class Contact {
     /*
     b)	een agenda met Appointment-objecten waar deze contactpersoon bij is betrokken..
     */
-    
     private String name;
+    private List<Appointment> agenda;
     
     /**
      * This class holds the name of a contact and the appoinments he is part of..
@@ -25,7 +27,12 @@ public class Contact {
      */
     public Contact(String name)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(name == null || name.equals("")) {
+            throw new IllegalArgumentException("Name cannot be null.");
+        }
+            
+        this.name = name;
+        this.agenda = new ArrayList<Appointment>();
     }
     
     /**
@@ -34,7 +41,7 @@ public class Contact {
      */
     public String getName()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return name;
     }
     
     /**
@@ -45,7 +52,13 @@ public class Contact {
      */
     public boolean addAppointment(Appointment a)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(Appointment appointment : agenda) {
+            if((appointment.getTimeSpan().unionWith(a.getTimeSpan())) != null) {
+                return false;
+            }
+        }
+        this.agenda.add(a);
+        return true;
     }
     
     /**
@@ -55,7 +68,7 @@ public class Contact {
      */
     public void removeAppointment(Appointment a)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.agenda.remove(a);
     }
     
     /**
@@ -65,6 +78,6 @@ public class Contact {
      */
     public Iterator<Appointment> appointments()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Template.
+        return this.agenda.iterator();
     }
 }
