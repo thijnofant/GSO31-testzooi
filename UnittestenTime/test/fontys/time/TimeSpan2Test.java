@@ -350,27 +350,27 @@ public class TimeSpan2Test {
         
         TimeSpan2 timeSpanRes2 = new TimeSpan2(timePst, timeBet);
         assertEquals("De begin tijd zou de start tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanB).getBeginTime());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getYear());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getMonth());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getDay());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getHours());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getMinutes());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Year)", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getYear());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Month)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getMonth());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Day)", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getDay());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Hour)", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getHours());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Min)", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getMinutes());
         
         timeSpanRes2 = new TimeSpan2(timeCst, timeCet);
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanC).getBeginTime());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getYear());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getMonth());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getDay());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getHours());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getMinutes());
+        assertEquals("De begin tijd zou de start tijd van C moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanC).getBeginTime());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Year)", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getYear());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Month)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getMonth());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Day)", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getDay());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Hour)", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getHours());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Min)", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getMinutes());
         
         timeSpanRes2 = new TimeSpan2(timePst, timePet);
         assertEquals("De begin tijd zou de begin tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanD).getBeginTime());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getYear());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getMonth());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getDay());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getHours());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getMinutes());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Year)", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getYear());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Month)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getMonth());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Day)", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getDay());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Hour)", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getHours());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Min)", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getMinutes());
                 
         assertNull("E en P hebben geen intersection", timeSpanP.intersectionWith(timeSpanE));
         
