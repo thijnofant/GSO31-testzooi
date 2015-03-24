@@ -77,7 +77,7 @@ public class TimeSpan2 implements ITimeSpan {
 
     @Override
     public ITimeSpan unionWith(ITimeSpan timeSpan) {
-        if (bt.compareTo(timeSpan.getEndTime()) >= 0 || this.getEndTime().compareTo(timeSpan.getBeginTime()) <= 0) {
+        if (bt.compareTo(timeSpan.getEndTime()) > 0 || this.getEndTime().compareTo(timeSpan.getBeginTime()) < 0) {
             return null;
         }
         

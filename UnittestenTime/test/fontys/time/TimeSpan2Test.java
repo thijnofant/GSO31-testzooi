@@ -252,7 +252,61 @@ public class TimeSpan2Test {
         
         timeSpan1 = new TimeSpan2(time1, time3);
         timeSpan2 = new TimeSpan2(time2, time4);
-        assertNull("er is een union terug gegeven terwijl er null moet zijn", timeSpan1.unionWith(timeSpan2));               
+        assertNull("er is een union terug gegeven terwijl er null moet zijn", timeSpan1.unionWith(timeSpan2));
+        
+        
+        
+        
+        
+        Time timeAst = new Time(2015,4,21,11,10);
+        Time timeAet = new Time(2015,4,21,13,10);
+        TimeSpan2 timeSpanA = new TimeSpan2(timeAst, timeAet);
+        
+        Time timeBst = new Time(2015,4,21,11,10);
+        Time timeBet = new Time(2015,4,21,13,15);
+        TimeSpan2 timeSpanB = new TimeSpan2(timeBst, timeBet);
+        
+        Time timeCst = new Time(2015,4,21,13,15);
+        Time timeCet = new Time(2015,4,21,13,20);
+        TimeSpan2 timeSpanC = new TimeSpan2(timeCst, timeCet);
+        
+        Time timeDst = new Time(2015,4,21,13,5);
+        Time timeDet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanD = new TimeSpan2(timeDst, timeDet);
+        
+        Time timeEst = new Time(2015,4,21,13,30);
+        Time timeEet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanE = new TimeSpan2(timeEst, timeEet);
+        
+        Time timeFst = new Time(2015,4,21,13,35);
+        Time timeFet = new Time(2015,4,21,13,40);
+        TimeSpan2 timeSpanF = new TimeSpan2(timeFst, timeFet);
+        
+        Time timePst = new Time(2015,4,21,13,10);
+        Time timePet = new Time(2015,4,21,13,30);
+        TimeSpan2 timeSpanP = new TimeSpan2(timePst, timePet);
+        
+        TimeSpan2 timeSpanRes2 = new TimeSpan2(timeAst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van A moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanA).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van P moeten zijn", timeSpanRes2.getEndTime(), timeSpanP.unionWith(timeSpanA).getEndTime());
+        
+        timeSpanRes2 = new TimeSpan2(timeBst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van B moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanB).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van P moeten zijn", timeSpanRes2.getEndTime(), timeSpanP.unionWith(timeSpanB).getEndTime());
+        
+        timeSpanRes2 = new TimeSpan2(timePst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanC).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van P moeten zijn", timeSpanRes2.getEndTime(), timeSpanP.unionWith(timeSpanC).getEndTime());
+        
+        timeSpanRes2 = new TimeSpan2(timeDst, timeDet);
+        assertEquals("De begin tijd zou de begin tijd van D moeten zijn", timeSpanRes.getBeginTime(), timeSpanP.unionWith(timeSpanD).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van D moeten zijn", timeSpanRes.getEndTime(), timeSpanP.unionWith(timeSpanD).getEndTime());
+        
+        timeSpanRes2 = new TimeSpan2(timePst, timeEet);
+        assertEquals("De begin tijd zou de begin tijd van P moeten zijn", timeSpanRes.getBeginTime(), timeSpanP.unionWith(timeSpanE).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van E moeten zijn", timeSpanRes.getEndTime(), timeSpanP.unionWith(timeSpanE).getEndTime());
+        
+        assertNull("Deze union zou geen resultaat moeten terugeven", timeSpanP.unionWith(timeSpanF));
     }
     
     @Test
@@ -285,6 +339,58 @@ public class TimeSpan2Test {
         timeSpan1 = new TimeSpan2(time1, time3);
         timeSpan2 = new TimeSpan2(time2, time4);
         assertNull("er is een resultaat teruggegeven terwijl er null moet zijn vanwege geen intersection", timeSpan1.intersectionWith(timeSpan2));
+        
+        
+        
+        
+        
+        
+        
+        Time timeAst = new Time(2015,4,21,11,10);
+        Time timeAet = new Time(2015,4,21,13,10);
+        TimeSpan2 timeSpanA = new TimeSpan2(timeAst, timeAet);
+        
+        Time timeBst = new Time(2015,4,21,11,10);
+        Time timeBet = new Time(2015,4,21,13,15);
+        TimeSpan2 timeSpanB = new TimeSpan2(timeBst, timeBet);
+        
+        Time timeCst = new Time(2015,4,21,13,15);
+        Time timeCet = new Time(2015,4,21,13,20);
+        TimeSpan2 timeSpanC = new TimeSpan2(timeCst, timeCet);
+        
+        Time timeDst = new Time(2015,4,21,13,5);
+        Time timeDet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanD = new TimeSpan2(timeDst, timeDet);
+        
+        Time timeEst = new Time(2015,4,21,13,30);
+        Time timeEet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanE = new TimeSpan2(timeEst, timeEet);
+        
+        Time timeFst = new Time(2015,4,21,13,35);
+        Time timeFet = new Time(2015,4,21,13,40);
+        TimeSpan2 timeSpanF = new TimeSpan2(timeFst, timeFet);
+        
+        Time timePst = new Time(2015,4,21,13,10);
+        Time timePet = new Time(2015,4,21,13,30);
+        TimeSpan2 timeSpanP = new TimeSpan2(timePst, timePet);
+        
+        assertNull("A en P hebben geen intersection", timeSpanP.intersectionWith(timeSpanA));
+        
+        TimeSpan2 timeSpanRes2 = new TimeSpan2(timePst, timeBet);
+        assertEquals("De begin tijd zou de start tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanB).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van B moeten zijn", timeSpanRes2.getEndTime(), timeSpanP.intersectionWith(timeSpanB).getEndTime());
+        
+        timeSpanRes = new TimeSpan2(timeCst, timeCet);
+        assertEquals("De begin tijd zou de begin tijd van C moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanC).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van C moeten zijn", timeSpanRes2.getEndTime(), timeSpanP.intersectionWith(timeSpanC).getEndTime());
+        
+        timeSpanRes = new TimeSpan2(timePst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanD).getBeginTime());
+        assertEquals("De Eind tijd zou de Eind tijd van P moeten zijn", timeSpanRes2.getEndTime(), timeSpanP.intersectionWith(timeSpanD).getEndTime());
+        
+        assertNull("E en P hebben geen intersection", timeSpanP.intersectionWith(timeSpanE));
+        
+        assertNull("F en P hebben geen intersection", timeSpanP.intersectionWith(timeSpanF));
     }
     
 }
