@@ -5,10 +5,23 @@
  */
 package Beurs;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Thijn
  */
-public class MockEffectenbeurs {
+public class MockEffectenbeurs implements IEffectenbeurs{
+    private ArrayList<IFonds> koersen;
     
+    public MockEffectenbeurs() {
+//        koersen = new ArrayList<>() {
+//            new Fonds("Philips", 100);
+//        };
+    }
+    
+    @Override
+    public ArrayList<IFonds> getKoersen() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

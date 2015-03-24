@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 package Beurs;
+import java.util.ArrayList;
 
 /**
  *
  * @author Thijn
  */
 public interface IEffectenbeurs {
-    
+    ArrayList<IFonds> getKoersen();
 }
