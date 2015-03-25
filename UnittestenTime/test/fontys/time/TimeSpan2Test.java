@@ -232,27 +232,77 @@ public class TimeSpan2Test {
         * common intersection, then the smallest time span ts will be returned, 
         * whereby this time span and [timeSpan] are part of ts, 
         otherwise null will be returned 
-        */
+        */     
+        
+        Time timeAst = new Time(2015,4,21,11,10);
+        Time timeAet = new Time(2015,4,21,13,10);
+        TimeSpan2 timeSpanA = new TimeSpan2(timeAst, timeAet);
+        
+        Time timeBst = new Time(2015,4,21,11,10);
+        Time timeBet = new Time(2015,4,21,13,15);
+        TimeSpan2 timeSpanB = new TimeSpan2(timeBst, timeBet);
+        
+        Time timeCst = new Time(2015,4,21,13,15);
+        Time timeCet = new Time(2015,4,21,13,20);
+        TimeSpan2 timeSpanC = new TimeSpan2(timeCst, timeCet);
+        
+        Time timeDst = new Time(2015,4,21,13,5);
+        Time timeDet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanD = new TimeSpan2(timeDst, timeDet);
+        
+        Time timeEst = new Time(2015,4,21,13,30);
+        Time timeEet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanE = new TimeSpan2(timeEst, timeEet);
+        
+        Time timeFst = new Time(2015,4,21,13,35);
+        Time timeFet = new Time(2015,4,21,13,40);
+        TimeSpan2 timeSpanF = new TimeSpan2(timeFst, timeFet);
+        
+        Time timePst = new Time(2015,4,21,13,10);
+        Time timePet = new Time(2015,4,21,13,30);
+        TimeSpan2 timeSpanP = new TimeSpan2(timePst, timePet);
+        
+        TimeSpan2 timeSpanRes2 = new TimeSpan2(timeAst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van A moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanA).getBeginTime());
+        assertEquals("Er is iets niet goed gegaan met de union (jaar)", timeSpanRes2.getEndTime().getYear(), timeSpanP.unionWith(timeSpanA).getEndTime().getYear());
+        assertEquals("Er is iets niet goed gegaan met de union (maand)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.unionWith(timeSpanA).getEndTime().getMonth());
+        assertEquals("Er is iets niet goed gegaan met de union (dag)", timeSpanRes2.getEndTime().getDay(), timeSpanP.unionWith(timeSpanA).getEndTime().getDay());
+        assertEquals("Er is iets niet goed gegaan met de union (uur)", timeSpanRes2.getEndTime().getHours(), timeSpanP.unionWith(timeSpanA).getEndTime().getHours());
+        assertEquals("Er is iets niet goed gegaan met de union (minuut", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.unionWith(timeSpanA).getEndTime().getMinutes());
+        
+        timeSpanRes2 = new TimeSpan2(timeBst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van B moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanB).getBeginTime());
+        assertEquals("Er is iets niet goed gegaan met de union (jaar)", timeSpanRes2.getEndTime().getYear(), timeSpanP.unionWith(timeSpanB).getEndTime().getYear());
+        assertEquals("Er is iets niet goed gegaan met de union (maand)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.unionWith(timeSpanB).getEndTime().getMonth());
+        assertEquals("Er is iets niet goed gegaan met de union (dag)", timeSpanRes2.getEndTime().getDay(), timeSpanP.unionWith(timeSpanB).getEndTime().getDay());
+        assertEquals("Er is iets niet goed gegaan met de union (uur)", timeSpanRes2.getEndTime().getHours(), timeSpanP.unionWith(timeSpanB).getEndTime().getHours());
+        assertEquals("Er is iets niet goed gegaan met de union (minuut", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.unionWith(timeSpanB).getEndTime().getMinutes());
 
-        Time time1 = new Time(2015,4,21,13,5);
-        Time time2 = new Time(2015,4,21,13,15);
-        Time time3 = new Time(2015,4,21,13,10);
-        Time time4 = new Time(2015,4,21,13,20);
+        timeSpanRes2 = new TimeSpan2(timePst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanC).getBeginTime());
+        assertEquals("Er is iets niet goed gegaan met de union (jaar)", timeSpanRes2.getEndTime().getYear(), timeSpanP.unionWith(timeSpanC).getEndTime().getYear());
+        assertEquals("Er is iets niet goed gegaan met de union (maand)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.unionWith(timeSpanC).getEndTime().getMonth());
+        assertEquals("Er is iets niet goed gegaan met de union (dag)", timeSpanRes2.getEndTime().getDay(), timeSpanP.unionWith(timeSpanC).getEndTime().getDay());
+        assertEquals("Er is iets niet goed gegaan met de union (uur)", timeSpanRes2.getEndTime().getHours(), timeSpanP.unionWith(timeSpanC).getEndTime().getHours());
+        assertEquals("Er is iets niet goed gegaan met de union (minuut", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.unionWith(timeSpanC).getEndTime().getMinutes());
         
-        TimeSpan2 timeSpan1 = new TimeSpan2(time1, time2);
-        TimeSpan2 timeSpan2 = new TimeSpan2(time3, time4);
-        TimeSpan2 timeSpanRes = new TimeSpan2(time1, time4);
+        timeSpanRes2 = new TimeSpan2(timeDst, timeDet);
+        assertEquals("De begin tijd zou de begin tijd van D moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanD).getBeginTime());
+        assertEquals("Er is iets niet goed gegaan met de union (jaar)", timeSpanRes2.getEndTime().getYear(), timeSpanP.unionWith(timeSpanD).getEndTime().getYear());
+        assertEquals("Er is iets niet goed gegaan met de union (maand)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.unionWith(timeSpanD).getEndTime().getMonth());
+        assertEquals("Er is iets niet goed gegaan met de union (dag)", timeSpanRes2.getEndTime().getDay(), timeSpanP.unionWith(timeSpanD).getEndTime().getDay());
+        assertEquals("Er is iets niet goed gegaan met de union (uur)", timeSpanRes2.getEndTime().getHours(), timeSpanP.unionWith(timeSpanD).getEndTime().getHours());
+        assertEquals("Er is iets niet goed gegaan met de union (minuut", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.unionWith(timeSpanD).getEndTime().getMinutes());
         
-        assertEquals("Er is iets niet goed gegaan met de union", timeSpanRes.getBeginTime(), timeSpan1.unionWith(timeSpan2).getBeginTime());
-        assertEquals("Er is iets niet goed gegaan met de union (jaar)", timeSpanRes.getEndTime().getYear(), timeSpan1.unionWith(timeSpan2).getEndTime().getYear());
-        assertEquals("Er is iets niet goed gegaan met de union (maand)", timeSpanRes.getEndTime().getMonth(), timeSpan1.unionWith(timeSpan2).getEndTime().getMonth());
-        assertEquals("Er is iets niet goed gegaan met de union (dag)", timeSpanRes.getEndTime().getDay(), timeSpan1.unionWith(timeSpan2).getEndTime().getDay());
-        assertEquals("Er is iets niet goed gegaan met de union (uur)", timeSpanRes.getEndTime().getHours(), timeSpan1.unionWith(timeSpan2).getEndTime().getHours());
-        assertEquals("Er is iets niet goed gegaan met de union (minuut", timeSpanRes.getEndTime().getMinutes(), timeSpan1.unionWith(timeSpan2).getEndTime().getMinutes());
+        timeSpanRes2 = new TimeSpan2(timePst, timeEet);
+        assertEquals("De begin tijd zou de begin tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.unionWith(timeSpanE).getBeginTime());
+        assertEquals("Er is iets niet goed gegaan met de union (jaar)", timeSpanRes2.getEndTime().getYear(), timeSpanP.unionWith(timeSpanE).getEndTime().getYear());
+        assertEquals("Er is iets niet goed gegaan met de union (maand)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.unionWith(timeSpanE).getEndTime().getMonth());
+        assertEquals("Er is iets niet goed gegaan met de union (dag)", timeSpanRes2.getEndTime().getDay(), timeSpanP.unionWith(timeSpanE).getEndTime().getDay());
+        assertEquals("Er is iets niet goed gegaan met de union (uur)", timeSpanRes2.getEndTime().getHours(), timeSpanP.unionWith(timeSpanE).getEndTime().getHours());
+        assertEquals("Er is iets niet goed gegaan met de union (minuut", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.unionWith(timeSpanE).getEndTime().getMinutes());
         
-        timeSpan1 = new TimeSpan2(time1, time3);
-        timeSpan2 = new TimeSpan2(time2, time4);
-        assertNull("er is een union terug gegeven terwijl er null moet zijn", timeSpan1.unionWith(timeSpan2));               
+        assertNull("Deze union zou geen resultaat moeten terugeven", timeSpanP.unionWith(timeSpanF));
     }
     
     @Test
@@ -266,25 +316,65 @@ public class TimeSpan2Test {
      * be returned
      */
                 
-        Time time1 = new Time(2015,4,21,13,5);
-        Time time2 = new Time(2015,4,21,13,15);
-        Time time3 = new Time(2015,4,21,13,10);
-        Time time4 = new Time(2015,4,21,13,20);
+
         
-        TimeSpan2 timeSpan1 = new TimeSpan2(time1, time2);
-        TimeSpan2 timeSpan2 = new TimeSpan2(time3, time4);
-        TimeSpan2 timeSpanRes = new TimeSpan2(time3, time2);
+        Time timeAst = new Time(2015,4,21,11,10);
+        Time timeAet = new Time(2015,4,21,13,10);
+        TimeSpan2 timeSpanA = new TimeSpan2(timeAst, timeAet);
         
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getBeginTime(), timeSpan1.intersectionWith(timeSpan2).getBeginTime());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getYear(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getYear());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getMonth(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getMonth());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getDay(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getDay());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getHours(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getHours());
-        assertEquals("De juiste overlap is niet teruggegeven", timeSpanRes.getEndTime().getMinutes(), timeSpan1.intersectionWith(timeSpan2).getEndTime().getMinutes());
+        Time timeBst = new Time(2015,4,21,11,10);
+        Time timeBet = new Time(2015,4,21,13,15);
+        TimeSpan2 timeSpanB = new TimeSpan2(timeBst, timeBet);
         
-        timeSpan1 = new TimeSpan2(time1, time3);
-        timeSpan2 = new TimeSpan2(time2, time4);
-        assertNull("er is een resultaat teruggegeven terwijl er null moet zijn vanwege geen intersection", timeSpan1.intersectionWith(timeSpan2));
+        Time timeCst = new Time(2015,4,21,13,15);
+        Time timeCet = new Time(2015,4,21,13,20);
+        TimeSpan2 timeSpanC = new TimeSpan2(timeCst, timeCet);
+        
+        Time timeDst = new Time(2015,4,21,13,5);
+        Time timeDet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanD = new TimeSpan2(timeDst, timeDet);
+        
+        Time timeEst = new Time(2015,4,21,13,30);
+        Time timeEet = new Time(2015,4,21,13,35);
+        TimeSpan2 timeSpanE = new TimeSpan2(timeEst, timeEet);
+        
+        Time timeFst = new Time(2015,4,21,13,35);
+        Time timeFet = new Time(2015,4,21,13,40);
+        TimeSpan2 timeSpanF = new TimeSpan2(timeFst, timeFet);
+        
+        Time timePst = new Time(2015,4,21,13,10);
+        Time timePet = new Time(2015,4,21,13,30);
+        TimeSpan2 timeSpanP = new TimeSpan2(timePst, timePet);
+        
+        assertNull("A en P hebben geen intersection", timeSpanP.intersectionWith(timeSpanA));
+        
+        TimeSpan2 timeSpanRes2 = new TimeSpan2(timePst, timeBet);
+        assertEquals("De begin tijd zou de start tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanB).getBeginTime());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Year)", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getYear());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Month)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getMonth());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Day)", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getDay());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Hour)", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getHours());
+        assertEquals("De eind tijd zou de eindtijd van B moeten zijn (Min)", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanB).getEndTime().getMinutes());
+        
+        timeSpanRes2 = new TimeSpan2(timeCst, timeCet);
+        assertEquals("De begin tijd zou de start tijd van C moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanC).getBeginTime());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Year)", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getYear());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Month)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getMonth());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Day)", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getDay());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Hour)", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getHours());
+        assertEquals("De eind tijd zou de eindtijd van C moeten zijn (Min)", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanC).getEndTime().getMinutes());
+        
+        timeSpanRes2 = new TimeSpan2(timePst, timePet);
+        assertEquals("De begin tijd zou de begin tijd van P moeten zijn", timeSpanRes2.getBeginTime(), timeSpanP.intersectionWith(timeSpanD).getBeginTime());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Year)", timeSpanRes2.getEndTime().getYear(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getYear());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Month)", timeSpanRes2.getEndTime().getMonth(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getMonth());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Day)", timeSpanRes2.getEndTime().getDay(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getDay());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Hour)", timeSpanRes2.getEndTime().getHours(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getHours());
+        assertEquals("De eind tijd zou de eindtijd van P moeten zijn (Min)", timeSpanRes2.getEndTime().getMinutes(), timeSpanP.intersectionWith(timeSpanD).getEndTime().getMinutes());
+                
+        assertNull("E en P hebben geen intersection", timeSpanP.intersectionWith(timeSpanE));
+        
+        assertNull("F en P hebben geen intersection", timeSpanP.intersectionWith(timeSpanF));
     }
     
 }
