@@ -57,10 +57,7 @@ public class AEXBanner extends Application {
                     {
                         textPosition = textPosition - 2;
                     }
-                    text.relocate(textPosition, 0);
-                    
-                    
-                    
+                    text.relocate(textPosition, 0);                  
                 }
             }
 

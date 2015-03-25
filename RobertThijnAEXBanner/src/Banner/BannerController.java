@@ -18,20 +18,17 @@ public class BannerController extends Application {
 //  private IEffectenBeurs effectenbeurs;
     private IEffectenbeurs MockEffectenbeurs;
 
-    @Override
-     ;
-
     public void start(Stage primaryStage) {
         banner = new AEXBanner();
         //primaryStage acts as the common stage of the AEXBanner and the 
         //BannerController:
         banner.start(primaryStage);
+        MockEffectenbeurs = new MockEffectenbeurs();
 
         //create a timer which polls every 2 seconds
         Timer pollingTimer = new Timer();
         // todo
         pollingTimer.schedule(new TimerTask() {
-
             @Override
             public void run() {
                 fondsen = MockEffectenbeurs.getKoersen();
@@ -39,9 +36,9 @@ public class BannerController extends Application {
                 if (fondsen.length >= 1) {
                     for (int i = 0; i < fondsen.length; i++) {
                         temp += fondsen[i].getNaam();
-                        temp += " ";
+                        temp += ": ";
                         temp += fondsen[i].getKoers();
-                        temp += " ";
+                        temp += "   ";
                     }
                 } else {
                     temp = "Er zijn op dit moment geen koersen beschikbaar";
@@ -52,7 +49,7 @@ public class BannerController extends Application {
 
         //remove pollingTimer as soon as primaryStage is closing:
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
-            //pollingTimer.cancel();
+            pollingTimer.cancel();
         });
     }
 
