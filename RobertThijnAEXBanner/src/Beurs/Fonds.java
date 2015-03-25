@@ -27,4 +27,8 @@ public class Fonds implements IFonds {
     public double getKoers() {
         return koers;
     }
+    
+    public void setKoers(double koers) {
+        this.koers = koers;
+    }
 }
