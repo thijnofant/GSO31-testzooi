@@ -41,7 +41,13 @@ public class BannerController extends Application {
                     for (int i = 0; i < fondsen.length; i++) {
                         temp += fondsen[i].getNaam();
                         temp += ": ";
-                        temp += fondsen[i].getKoers();
+                        //temp += fondsen[i].getKoers();
+                        //
+                        String temp2 =  Double.toString(fondsen[i].getKoers());
+                        int index = temp2.indexOf('.');
+                        String temp3 = temp2.substring(0, index + 3);                                                
+                        temp += temp3;
+                        //
                         temp += "   ";
                     }
                 } else {
