@@ -12,16 +12,16 @@ import java.util.ArrayList;
  * @author Thijn
  */
 public class MockEffectenbeurs implements IEffectenbeurs{
-    private ArrayList<IFonds> koersen;
+    private IFonds[] koersen;
     
     public MockEffectenbeurs() {
-//        koersen = new ArrayList<>() {
-//            new Fonds("Philips", 100);
-//        };
+        koersen = new IFonds[] {
+            new Fonds("Philips", 100),
+        };
     }
     
     @Override
-    public ArrayList<IFonds> getKoersen() {
+    public IFonds[] getKoersen() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
