@@ -6,6 +6,7 @@
 package Beurs;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -27,6 +28,16 @@ public class MockEffectenbeurs implements IEffectenbeurs{
     
     @Override
     public IFonds[] getKoersen() {
+        fluctueerKoersen();
         return koersen;
+    }
+    
+    public void fluctueerKoersen() {
+        for(int i = 0; i < koersen.length; i++) {
+            Fonds f = (Fonds)koersen[i];
+            Random r = new Random();
+            double verandering = (100 + (-3 +  r.nextInt(6))) / 100;
+            f.setKoers(f.getKoers() * verandering);
+        }
     }
 }
