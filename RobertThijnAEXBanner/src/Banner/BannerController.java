@@ -1,12 +1,15 @@
 /**
- * ***** BannerController.java  **********************************
+ * ***** BannerController.java **********************************
  */
 package Banner;
 
 import Beurs.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -29,6 +32,7 @@ public class BannerController extends Application {
         Timer pollingTimer = new Timer();
         // todo
         pollingTimer.schedule(new TimerTask() {
+
             @Override
             public void run() {
                 fondsen = MockEffectenbeurs.getKoersen();
@@ -43,7 +47,10 @@ public class BannerController extends Application {
                 } else {
                     temp = "Er zijn op dit moment geen koersen beschikbaar";
                 }
-                banner.setKoersen(temp);
+                
+                Platform.runLater(new KoersSetterRun(temp, banner));
+                
+                //banner.setKoersen(temp);
             }
         }, 0, 2000);
 
