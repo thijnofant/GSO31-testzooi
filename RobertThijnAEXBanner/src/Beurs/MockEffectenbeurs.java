@@ -16,12 +16,17 @@ public class MockEffectenbeurs implements IEffectenbeurs{
     
     public MockEffectenbeurs() {
         koersen = new IFonds[] {
-            new Fonds("Philips", 100),
+            new Fonds("Philips", 26.345),
+            new Fonds("KPN", 3.154),
+            new Fonds("Heineken", 71.470),
+            new Fonds("Ahold", 18.325),
+            new Fonds("Shell", 28.485),
+            new Fonds("Unilever", 39.460),
         };
     }
     
     @Override
     public IFonds[] getKoersen() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return koersen;
     }
 }
