@@ -16,7 +16,7 @@ import java.util.concurrent.Callable;
  * @author Robert
  */
 public class GenerateEdgeCallable implements Callable, Observer {
-    KochFractal koch;
+    KochFractal koch = new KochFractal();
     int level;
     String direction;
     KochManager kochmanager;
@@ -27,6 +27,7 @@ public class GenerateEdgeCallable implements Callable, Observer {
         this.kochmanager = manager;
         this.direction = direction;
         this.edges = new ArrayList<>();
+        this.koch.addObserver(this);
     }
     
     @Override
@@ -41,7 +42,7 @@ public class GenerateEdgeCallable implements Callable, Observer {
         }
         
         synchronized(kochmanager) {
-            kochmanager.count++;
+            kochmanager.count += 1;
         }
         
         return edges;
@@ -49,6 +50,8 @@ public class GenerateEdgeCallable implements Callable, Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        
+        synchronized(kochmanager) {
+            edges.add((Edge)arg);
+        }
     }
 }
