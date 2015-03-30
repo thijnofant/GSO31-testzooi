@@ -11,8 +11,10 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import javafx.application.Platform;
 
 /**
@@ -21,10 +23,13 @@ import javafx.application.Platform;
  */
 public class KochManager{
     private JSF31KochFractalFX application;    
-    private ArrayList<Edge> edges;
-    public static int count = 0;
+    public ArrayList<Edge> edges;
+    public int count = 0;
     TimeStamp ts;
-    ExecutorService pool;
+    ExecutorService pool = Executors.newFixedThreadPool(4);
+    Future<List<Edge>> leftedges;
+    Future<List<Edge>> bottomedges;
+    Future<List<Edge>> rightedges;
     
     public KochManager(JSF31KochFractalFX application) {
         this.application = application;
@@ -33,12 +38,12 @@ public class KochManager{
     
     public void changeLevel(int nxt) {
         edges.clear();   
-        pool = Executors.newFixedThreadPool(3);
         ts = new TimeStamp();
         ts.setBegin();
-        pool.execute(new leftRunnable(nxt, edges, this));
-        pool.execute(new bottomRunnable(nxt, edges, this));
-        pool.execute(new rightRunnable(nxt, edges, this));            
+        leftedges = pool.submit(new GenerateEdgeCallable(nxt, this, "left"));
+        rightedges = pool.submit(new GenerateEdgeCallable(nxt, this, "right"));
+        bottomedges = pool.submit(new GenerateEdgeCallable(nxt, this, "bottom"));
+        pool.execute(new WaitingThread(this));
     }
     
     public void drawEdges() {
@@ -55,6 +60,7 @@ public class KochManager{
     
     public void calcComplete() {
         ts.setEnd();
+        
         Platform.runLater(new Runnable() 
          {
             @Override public void run() 
@@ -62,6 +68,14 @@ public class KochManager{
                 application.setTextCalc(ts.toString());
             }
          });
+        
+        try {
+            edges.addAll(leftedges.get());
+            edges.addAll(bottomedges.get());
+            edges.addAll(rightedges.get());
+        }
+        catch(Exception e) {
+        }
     }
     
     public void requestDrawEdges() {         
