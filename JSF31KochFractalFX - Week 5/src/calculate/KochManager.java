@@ -21,16 +21,14 @@ import javafx.application.Platform;
  */
 public class KochManager{
     private JSF31KochFractalFX application;    
-    private ArrayList<Edge> edgeslist;
-    private List<Edge> edges;
+    private ArrayList<Edge> edges;
     public static int count = 0;
     TimeStamp ts;
     ExecutorService pool;
     
     public KochManager(JSF31KochFractalFX application) {
         this.application = application;
-        this.edgeslist = new ArrayList<>();
-        this.edges = Collections.synchronizedList(edgeslist);  
+        this.edges = new ArrayList<>();
     }
     
     public void changeLevel(int nxt) {
