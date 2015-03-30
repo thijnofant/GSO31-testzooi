@@ -11,6 +11,8 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javafx.application.Platform;
 
 /**
@@ -23,6 +25,7 @@ public class KochManager{
     private List<Edge> edges;
     public static int count = 0;
     TimeStamp ts;
+    ExecutorService pool;
     
     public KochManager(JSF31KochFractalFX application) {
         this.application = application;
@@ -31,16 +34,13 @@ public class KochManager{
     }
     
     public void changeLevel(int nxt) {
-        edges.clear();
-        CyclicBarrier cb = new CyclicBarrier(3);       
+        edges.clear();   
+        pool = Executors.newFixedThreadPool(3);
         ts = new TimeStamp();
         ts.setBegin();
-        Thread t1 = new Thread(new leftRunnable(nxt, edges, this, cb));
-        t1.start();
-        Thread t2 = new Thread(new bottomRunnable(nxt, edges, this, cb));
-        t2.start();
-        Thread t3 = new Thread(new rightRunnable(nxt, edges, this, cb));
-        t3.start();             
+        pool.execute(new leftRunnable(nxt, edges, this));
+        pool.execute(new bottomRunnable(nxt, edges, this));
+        pool.execute(new rightRunnable(nxt, edges, this));            
     }
     
     public void drawEdges() {

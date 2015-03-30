@@ -22,27 +22,18 @@ public class bottomRunnable implements Runnable, Observer {
     int level;
     List<Edge> edges;
     KochManager kochmanager;
-    CyclicBarrier cb;
     
-    public bottomRunnable(int level, List<Edge> edges, KochManager manager, CyclicBarrier cb) {
+    public bottomRunnable(int level, List<Edge> edges, KochManager manager) {
         koch = new KochFractal();
         koch.setLevel(level);
         koch.addObserver(this);
         this.edges = edges;
         this.kochmanager = manager;
-        this.cb = cb;
     }
     
     @Override
     public void run() {
         koch.generateBottomEdge();
-        try {    
-            cb.await();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(bottomRunnable.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (BrokenBarrierException ex) {
-            Logger.getLogger(bottomRunnable.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     @Override
