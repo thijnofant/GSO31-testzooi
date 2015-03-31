@@ -74,6 +74,7 @@ public class BannerController extends Application {
     public void bindBeurs(String ipAddress, int portNumber) {
         try {
             MockEffectenbeurs = (IEffectenbeurs) Naming.lookup("rmi://" + ipAddress + ":" + portNumber + "/" + bindingName);
+            System.out.println("Effectenbeurs bound");
         }
         catch(Exception ex) {
             System.out.println("Exception: " + ex.getMessage());

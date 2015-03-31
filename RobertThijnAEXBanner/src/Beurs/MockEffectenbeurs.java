@@ -48,7 +48,6 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
 
     @Override
     public IFonds[] getKoersen() {
-        fluctueerKoersen();
         return koersen;
     }
 
