@@ -4,6 +4,7 @@
 package Banner;
 
 import Shared.*;
+import java.rmi.Naming;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -20,13 +21,16 @@ public class BannerController extends Application {
     private IFonds[] fondsen;
 //  private IEffectenBeurs effectenbeurs;
     private IEffectenbeurs MockEffectenbeurs;
+    public static final String bindingName ="MockEffectenbeurs";
+    public static final String ip = "127.0.0.1";
+    public static final int port = 1099;
 
     public void start(Stage primaryStage) {
         banner = new AEXBanner();
         //primaryStage acts as the common stage of the AEXBanner and the 
         //BannerController:
         banner.start(primaryStage);
-        MockEffectenbeurs = new MockEffectenbeurs();
+        bindBeurs(ip, port);
 
         //create a timer which polls every 2 seconds
         Timer pollingTimer = new Timer();
@@ -64,6 +68,15 @@ public class BannerController extends Application {
         primaryStage.setOnCloseRequest((WindowEvent we) -> {
             pollingTimer.cancel();
         });
+    }
+    
+    public void bindBeurs(String ipAddress, int portNumber) {
+        try {
+            MockEffectenbeurs = (IEffectenbeurs) Naming.lookup("rmi://" + ipAddress + ":" + portNumber + "/" + bindingName);
+        }
+        catch(Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        }
     }
 
     /**
