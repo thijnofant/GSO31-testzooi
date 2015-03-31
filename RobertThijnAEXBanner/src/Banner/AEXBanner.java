@@ -77,5 +77,4 @@ public class AEXBanner extends Application {
         text.setText(koersen);
         textLength = text.getLayoutBounds().getWidth();
     }
-
 }

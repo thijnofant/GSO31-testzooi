@@ -5,11 +5,16 @@
  */
 package Beurs;
 
+import Banner.KoersSetterRun;
+import com.sun.javaws.Main;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import javafx.application.Platform;
 
 /**
  *
@@ -17,7 +22,7 @@ import java.util.Random;
  */
 public class MockEffectenbeurs implements IEffectenbeurs {
 
-    private IFonds[] koersen;
+    private static IFonds[] koersen;
     DecimalFormat df = new DecimalFormat("#.00");
 
     public MockEffectenbeurs() {
@@ -28,15 +33,26 @@ public class MockEffectenbeurs implements IEffectenbeurs {
             new Fonds("Ahold", 18.32),
             new Fonds("Shell", 28.48),
             new Fonds("Unilever", 39.46),};
+        
+        Timer pollingTimer = new Timer();
+        // todo
+        pollingTimer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+                fluctueerKoersen();
+            }
+        }, 0, 1000);
+        
     }
 
     @Override
     public IFonds[] getKoersen() {
-        fluctueerKoersen();
+        
         return koersen;
     }
-
-    public void fluctueerKoersen() {
+    
+    public static void fluctueerKoersen() {
         for (int i = 0; i < koersen.length; i++) {
             Fonds f = (Fonds) koersen[i];
             Random r = new Random();
