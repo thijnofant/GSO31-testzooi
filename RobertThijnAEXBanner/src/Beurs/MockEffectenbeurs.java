@@ -45,7 +45,7 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
                 fluctueerKoersen();
             }
         }, 0, 1000);
-        
+        //huh?
     }
 
     @Override
