@@ -3,7 +3,7 @@
  */
 package Banner;
 
-import Beurs.*;
+import Shared.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;

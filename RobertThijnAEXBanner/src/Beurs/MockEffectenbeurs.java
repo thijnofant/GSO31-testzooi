@@ -5,6 +5,8 @@
  */
 package Beurs;
 
+import Shared.IFonds;
+import Shared.IEffectenbeurs;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.rmi.RemoteException;
