@@ -40,11 +40,10 @@ public class MockEffectenbeurs implements IEffectenbeurs {
         for (int i = 0; i < koersen.length; i++) {
             Fonds f = (Fonds) koersen[i];
             Random r = new Random();
-            int updown = r.nextInt(6) -3;
-            double change = 1+(((double)updown / 100));
-            //System.out.println(updown);
+            int updown = r.nextInt(7) -3;
+            double change = 1+((double)updown / 100);
+            System.out.println(updown);
             //System.out.println(change);
-            double verandering = (-1 + r.nextDouble()) / 10;
             f.setKoers(f.getKoers() * change);
         }
     }
