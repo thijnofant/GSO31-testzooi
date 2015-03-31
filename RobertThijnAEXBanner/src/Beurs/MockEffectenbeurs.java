@@ -5,8 +5,8 @@
  */
 package Beurs;
 
-import Banner.KoersSetterRun;
-import com.sun.javaws.Main;
+import Shared.IFonds;
+import Shared.IEffectenbeurs;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.rmi.RemoteException;
@@ -14,9 +14,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
-import javafx.application.Platform;
 
 /**
  *
@@ -50,10 +47,10 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
 
     @Override
     public IFonds[] getKoersen() {
-        
+        fluctueerKoersen();
         return koersen;
     }
-    
+
     public void fluctueerKoersen() {
         for (int i = 0; i < koersen.length; i++) {
             Fonds f = (Fonds) koersen[i];

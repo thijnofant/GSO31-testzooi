@@ -5,6 +5,7 @@
  */
 package Beurs;
 
+import Shared.IFonds;
 import java.io.Serializable;
 
 /**
