@@ -58,9 +58,10 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
             Random r = new Random();
             int updown = r.nextInt(7) -3;
             double change = 1+((double)updown / 100);
-            System.out.println(updown);
+            //System.out.println(updown);
             //System.out.println(change);
             f.setKoers(f.getKoers() * change);
+            System.out.println(f.getKoers());
         }
     }
 }
