@@ -5,11 +5,13 @@
  */
 package Beurs;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Robert
  */
-public class Fonds implements IFonds {
+public class Fonds implements IFonds, Serializable {
     private String naam;
     private double koers;
     
