@@ -9,6 +9,8 @@ import Banner.KoersSetterRun;
 import com.sun.javaws.Main;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,12 +22,12 @@ import javafx.application.Platform;
  *
  * @author Thijn
  */
-public class MockEffectenbeurs implements IEffectenbeurs {
+public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenbeurs {
 
     private static IFonds[] koersen;
     DecimalFormat df = new DecimalFormat("#.00");
 
-    public MockEffectenbeurs() {
+    public MockEffectenbeurs() throws RemoteException {
         koersen = new IFonds[]{
             new Fonds("Philips", 26.34),
             new Fonds("KPN", 3.15),
