@@ -24,7 +24,7 @@ import javafx.application.Platform;
  */
 public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenbeurs {
 
-    private static IFonds[] koersen;
+    private IFonds[] koersen;
     DecimalFormat df = new DecimalFormat("#.00");
 
     public MockEffectenbeurs() throws RemoteException {
@@ -54,7 +54,7 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
         return koersen;
     }
     
-    public static void fluctueerKoersen() {
+    public void fluctueerKoersen() {
         for (int i = 0; i < koersen.length; i++) {
             Fonds f = (Fonds) koersen[i];
             Random r = new Random();
