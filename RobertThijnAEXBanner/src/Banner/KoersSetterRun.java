@@ -22,7 +22,5 @@ public class KoersSetterRun implements Runnable{
     public void run() {
         banner.setKoersen(this.koers);
     }
-    
-    
-    
+      
 }
