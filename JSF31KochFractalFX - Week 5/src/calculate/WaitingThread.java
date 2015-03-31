@@ -17,12 +17,11 @@ public class WaitingThread implements Runnable {
     }
     
     public void run() {
-        while (koch.count != 3) {
-            System.out.println(koch.count);
+        while (!(koch.count >= 3)) {
+            System.out.println("waiting" + koch.count);
         }
         
-        koch.calcComplete();
-        koch.requestDrawEdges();
         koch.count = 0;
+        koch.calcComplete();
     }
 }

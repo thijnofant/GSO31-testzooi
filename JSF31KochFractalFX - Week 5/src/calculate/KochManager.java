@@ -37,6 +37,10 @@ public class KochManager{
     }
     
     public void changeLevel(int nxt) {
+        if (count > 0) {
+            return;
+        }
+        
         edges.clear();   
         ts = new TimeStamp();
         ts.setBegin();
@@ -76,9 +80,15 @@ public class KochManager{
         }
         catch(Exception e) {
         }
+        
+        requestDrawEdges();
     }
     
     public void requestDrawEdges() {         
         application.requestDrawEdges();
+    }
+    
+    public void stopThreadPool() {
+        pool.shutdown();
     }
 }

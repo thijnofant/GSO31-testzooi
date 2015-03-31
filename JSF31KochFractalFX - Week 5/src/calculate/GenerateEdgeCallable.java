@@ -31,14 +31,17 @@ public class GenerateEdgeCallable implements Callable, Observer {
     }
     
     @Override
-    public Object call() throws Exception {
-        switch (direction) {
-            case "left":
-                koch.generateLeftEdge();
-            case "bottom":
-                koch.generateBottomEdge();
-            case "right":
-                koch.generateRightEdge();
+    public List<Edge> call() throws Exception {
+        koch.setLevel(level);
+        
+        if(direction == "left") {
+            koch.generateLeftEdge();
+        }
+        if(direction == "bottom") {
+            koch.generateBottomEdge();
+        }
+        if(direction == "right") {
+            koch.generateRightEdge();
         }
         
         synchronized(kochmanager) {

@@ -275,7 +275,12 @@ public class JSF31KochFractalFX extends Application {
         startPressedY = event.getY();
         lastDragX = event.getX();
         lastDragY = event.getY();
-    }                                                                        
+    }     
+    
+    @Override
+    public void stop() {
+        kochManager.stopThreadPool();
+    }
 
     private void resetZoom() {
         int kpSize = Math.min(kpWidth, kpHeight);
