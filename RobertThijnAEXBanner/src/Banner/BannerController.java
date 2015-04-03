@@ -22,11 +22,9 @@ public class BannerController extends Application {
 
     private AEXBanner banner;
     private IFonds[] fondsen;
-//  private IEffectenBeurs effectenbeurs;
     private IEffectenbeurs MockEffectenbeurs;
     public static final String bindingName ="MockEffectenbeurs";
-    public static final String ip = "127.0.0.1";
-    //public static final String ip = "145.144.251.134";
+    public static final String ip = "192.168.178.19";
     public static final int port = 1099;
     private Registry registry = null;
 
@@ -37,13 +35,13 @@ public class BannerController extends Application {
         banner.start(primaryStage);
         
         try {
-            registry = LocateRegistry.getRegistry(ip, port);
+            registry = LocateRegistry.getRegistry("192.168.178.19", port);
             System.out.println("Registry located.");
         } catch (RemoteException ex) {
             System.out.println(ex.getMessage());
         }
-        
-        bindBeurs(ip, port);
+               
+        bindBeurs("192.168.178.19", port);
 
         //create a timer which polls every 2 seconds
         Timer pollingTimer = new Timer();
