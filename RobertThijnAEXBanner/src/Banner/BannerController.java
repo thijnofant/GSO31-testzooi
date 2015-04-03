@@ -5,6 +5,9 @@ package Banner;
 
 import Shared.*;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -22,15 +25,24 @@ public class BannerController extends Application {
 //  private IEffectenBeurs effectenbeurs;
     private IEffectenbeurs MockEffectenbeurs;
     public static final String bindingName ="MockEffectenbeurs";
-    //public static final String ip = "127.0.0.1";
-    public static final String ip = "145.144.251.134";
+    public static final String ip = "127.0.0.1";
+    //public static final String ip = "145.144.251.134";
     public static final int port = 1099;
+    private Registry registry = null;
 
     public void start(Stage primaryStage) {
         banner = new AEXBanner();
         //primaryStage acts as the common stage of the AEXBanner and the 
         //BannerController:
         banner.start(primaryStage);
+        
+        try {
+            registry = LocateRegistry.getRegistry(ip, port);
+            System.out.println("Registry located.");
+        } catch (RemoteException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
         bindBeurs(ip, port);
 
         //create a timer which polls every 2 seconds
@@ -73,7 +85,7 @@ public class BannerController extends Application {
     
     public void bindBeurs(String ipAddress, int portNumber) {
         try {
-            MockEffectenbeurs = (IEffectenbeurs) Naming.lookup("rmi://" + ipAddress + ":" + portNumber + "/" + bindingName);
+            MockEffectenbeurs = (IEffectenbeurs) registry.lookup("rmi://" + ipAddress + ":" + portNumber + "/" + bindingName);
             System.out.println("Effectenbeurs bound");
         }
         catch(Exception ex) {

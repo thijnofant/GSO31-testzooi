@@ -5,11 +5,13 @@
  */
 package Shared;
 
+import java.rmi.Remote;
+
 /**
  *
  * @author Robert
  */
-public interface IFonds {
+public interface IFonds extends Remote {
     String getNaam();
     double getKoers();
 }
