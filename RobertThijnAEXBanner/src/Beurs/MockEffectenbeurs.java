@@ -42,7 +42,7 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
             public void run() {
                 fluctueerKoersen();
             }
-        }, 0, 1000);
+        }, 0, 2000);
         //huh?
     }
 
