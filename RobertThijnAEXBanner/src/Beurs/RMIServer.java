@@ -22,33 +22,15 @@ import java.rmi.server.UnicastRemoteObject;
 public class RMIServer {
     public static final int portNumber = 1099;  
     public static final String bindingName = "MockEffectenbeurs";
-    private Registry registry = null;
-    private MockEffectenbeurs beurs = null;
     
-    public RMIServer() {
-        MockEffectenbeurs stub = null;
-        
+    public RMIServer() { 
        try {
-           beurs = new MockEffectenbeurs();
-           stub = (MockEffectenbeurs) UnicastRemoteObject.exportObject(beurs, 0);
+           MockEffectenbeurs beurs = new MockEffectenbeurs();
+           Registry registry = LocateRegistry.createRegistry(portNumber);
+           registry.rebind(bindingName, beurs);
        }
-       catch (RemoteException re) {
-           System.out.println("RemoteException: " + re.getMessage());
-       }
-       
-       try {
-           registry = LocateRegistry.createRegistry(portNumber);
-       }
-       catch(RemoteException re) {
-           System.out.println("RemoteException: " + re.getMessage());
-           registry = null;
-       }
-       
-       try {
-           registry.rebind(bindingName, stub);
-       }
-       catch (RemoteException re) {
-           System.out.println("RemoteException: " + re.getMessage());
+       catch (Exception ex) {
+           System.out.println("Exception: " + ex.getMessage());
        }
     }
     

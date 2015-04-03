@@ -5,6 +5,7 @@
  */
 package Shared;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.Arrays;
 
 /**
@@ -12,5 +13,5 @@ import java.util.Arrays;
  * @author Thijn
  */
 public interface IEffectenbeurs extends Remote {
-    IFonds[] getKoersen();
+    IFonds[] getKoersen() throws RemoteException;
 }

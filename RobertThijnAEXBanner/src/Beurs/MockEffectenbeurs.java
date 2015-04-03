@@ -47,11 +47,11 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
     }
 
     @Override
-    public IFonds[] getKoersen() {
+    public IFonds[] getKoersen() throws RemoteException {
         return koersen;
     }
 
-    public void fluctueerKoersen() {
+    private void fluctueerKoersen() {
         for (int i = 0; i < koersen.length; i++) {
             Fonds f = (Fonds) koersen[i];
             Random r = new Random();

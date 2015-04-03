@@ -35,13 +35,13 @@ public class BannerController extends Application {
         banner.start(primaryStage);
         
         try {
-            registry = LocateRegistry.getRegistry("192.168.178.19", port);
+            registry = LocateRegistry.getRegistry(ip, port);
             System.out.println("Registry located.");
         } catch (RemoteException ex) {
             System.out.println(ex.getMessage());
         }
                
-        bindBeurs("192.168.178.19", port);
+        bindBeurs(ip, port);
 
         //create a timer which polls every 2 seconds
         Timer pollingTimer = new Timer();
@@ -50,23 +50,28 @@ public class BannerController extends Application {
 
             @Override
             public void run() {
-                fondsen = MockEffectenbeurs.getKoersen();
                 String temp = "";
-                if (fondsen.length >= 1) {
-                    for (int i = 0; i < fondsen.length; i++) {
-                        temp += fondsen[i].getNaam();
-                        temp += ": ";
-                        //temp += fondsen[i].getKoers();
-                        //
-                        String temp2 =  Double.toString(fondsen[i].getKoers());
-                        int index = temp2.indexOf('.');
-                        String temp3 = temp2.substring(0, index + 3);                                                
-                        temp += temp3;
-                        //
-                        temp += "   ";
+                try {
+                    fondsen = MockEffectenbeurs.getKoersen(); 
+                    if (fondsen.length >= 1) {
+                        for (int i = 0; i < fondsen.length; i++) {
+                            temp += fondsen[i].getNaam();
+                            temp += ": ";
+                            //temp += fondsen[i].getKoers();
+                            //
+                            String temp2 =  Double.toString(fondsen[i].getKoers());
+                            int index = temp2.indexOf('.');
+                            String temp3 = temp2.substring(0, index + 3);                                                
+                            temp += temp3;
+                            //
+                            temp += "   ";
+                        }
+                    } else {
+                        temp = "Er zijn op dit moment geen koersen beschikbaar";
                     }
-                } else {
-                    temp = "Er zijn op dit moment geen koersen beschikbaar";
+                }
+                catch (RemoteException ex) {
+                    System.out.println(ex.getMessage());
                 }
                 
                 Platform.runLater(new KoersSetterRun(temp, banner));
@@ -83,7 +88,8 @@ public class BannerController extends Application {
     
     public void bindBeurs(String ipAddress, int portNumber) {
         try {
-            MockEffectenbeurs = (IEffectenbeurs) registry.lookup("rmi://" + ipAddress + ":" + portNumber + "/" + bindingName);
+            // MockEffectenbeurs = (IEffectenbeurs) Naming.lookup("rmi://" + ipAddress + ":" + portNumber + "/" + bindingName);
+            MockEffectenbeurs = (IEffectenbeurs) registry.lookup(bindingName);
             System.out.println("Effectenbeurs bound");
         }
         catch(Exception ex) {
