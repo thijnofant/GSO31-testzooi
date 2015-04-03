@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 package Shared;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.Arrays;
 
 /**
  *
  * @author Thijn
  */
-public interface IEffectenbeurs {
-    IFonds[] getKoersen();
+public interface IEffectenbeurs extends Remote {
+    IFonds[] getKoersen() throws RemoteException;
 }

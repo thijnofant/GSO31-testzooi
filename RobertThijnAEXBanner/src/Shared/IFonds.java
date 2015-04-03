@@ -5,11 +5,14 @@
  */
 package Shared;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Robert
  */
-public interface IFonds {
-    String getNaam();
-    double getKoers();
+public interface IFonds extends Remote {
+    String getNaam() throws RemoteException;
+    double getKoers() throws RemoteException;
 }
