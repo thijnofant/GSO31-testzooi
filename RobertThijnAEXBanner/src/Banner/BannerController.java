@@ -24,7 +24,7 @@ public class BannerController extends Application {
     private IFonds[] fondsen;
     private IEffectenbeurs MockEffectenbeurs;
     public static final String bindingName ="MockEffectenbeurs";
-    public static final String ip = "192.168.178.19";
+    public static final String ip = "145.144.250.51";
     public static final int port = 1099;
     private Registry registry = null;
 
