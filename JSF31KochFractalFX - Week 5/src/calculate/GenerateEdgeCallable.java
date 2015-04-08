@@ -53,8 +53,8 @@ public class GenerateEdgeCallable implements Callable, Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        synchronized(kochmanager) {
+        //synchronized(kochmanager) {
             edges.add((Edge)arg);
-        }
+        //}
     }
 }
