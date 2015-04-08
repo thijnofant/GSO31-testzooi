@@ -15,13 +15,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javax.management.monitor.Monitor;
 
 /**
  *
  * @author Nico Kuijpers
  */
 public class MovingBallsFX extends Application {
-    
+
     private Thread threadDraw;
     private Ball[] ballArray = new Ball[10];
     private Thread[] threadArray = new Thread[10];
@@ -33,49 +34,49 @@ public class MovingBallsFX extends Application {
     private int radius = 10;
     private int minCsX = (maxX + minX) / 2 - 100;
     private int maxCsX = (maxX + minX) / 2 + 100;
+    private RW monitor;
 
     @Override
     public void start(Stage primaryStage) {
-       
+
         // Create the scene
         Group root = new Group();
         Scene scene = new Scene(root, maxX, maxY);
-        
+
         // Check boxes
         for (int i = 0; i < checkBoxArray.length; i++) {
             String text;
-            if (i < 5) { 
+            if (i < 5) {
                 // Check box for reader
-                text = "Reader"+(i+1);
-            }
-            else {
+                text = "Reader" + (i + 1);
+            } else {
                 // Check box for writer
-                text = "Writer"+(i-4);
+                text = "Writer" + (i - 4);
             }
             final int index = i;
             checkBoxArray[i] = new CheckBox(text);
             checkBoxArray[i].addEventHandler(MouseEvent.MOUSE_CLICKED,
-                new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        checkBoxMouseClicked(event,index);
-                    }
-                });
+                    new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            checkBoxMouseClicked(event, index);
+                        }
+                    });
             checkBoxArray[i].setLayoutX(radius);
-            checkBoxArray[i].setLayoutY((i*4 + 1)*radius);
+            checkBoxArray[i].setLayoutY((i * 4 + 1) * radius);
             root.getChildren().add(checkBoxArray[i]);
         }
-        
+
         // Indicate entire section
-        Rectangle entireSection = new Rectangle(minX,0,maxX-minX,maxY);
+        Rectangle entireSection = new Rectangle(minX, 0, maxX - minX, maxY);
         entireSection.setFill(Color.LIGHTYELLOW);
         root.getChildren().add(entireSection);
-        
+
         // Indicate critical section
-        Rectangle criticalSection = new Rectangle(minCsX,0,maxCsX-minCsX,maxY);
+        Rectangle criticalSection = new Rectangle(minCsX, 0, maxCsX - minCsX, maxY);
         criticalSection.setFill(Color.LIGHTGREEN);
         root.getChildren().add(criticalSection);
-        
+
         // Define circles for each ball
         for (int i = 0; i < circleArray.length; i++) {
             CheckBox cb = checkBoxArray[i];
@@ -83,41 +84,43 @@ public class MovingBallsFX extends Application {
             if (i < 5) {
                 // Reader
                 circleArray[i] = new Circle(minX, y, radius, Color.RED);
-            }
-            else {
+            } else {
                 // Writer
                 circleArray[i] = new Circle(minX, y, radius, Color.BLUE);
             }
             circleArray[i].setVisible(false);
             root.getChildren().add(circleArray[i]);
         }
-        
+
         // Define title and assign the scene for main window
         primaryStage.setTitle("Moving Balls");
         primaryStage.setScene(scene);
         primaryStage.show();
-        
+
         // Start thread to draw each 20 ms
         threadDraw = new Thread(new DrawRunnable());
         threadDraw.start();
+
+        //Monitor
+        monitor = new RW();
     }
-    
+
     private void checkBoxMouseClicked(MouseEvent event, int index) {
         CheckBox cb = checkBoxArray[index];
         int y = (int) cb.getLayoutY() + radius;
-        if (cb.isSelected() && index < 5) { 
+        if (cb.isSelected() && index < 5) {
             // Reader selected: new red ball
             Ball b = new Ball(minX, maxX, minCsX, maxCsX, y, Color.RED);
             ballArray[index] = b;
-            Thread t = new Thread(new BallRunnable(b));
+            Thread t = new Thread(new BallRunnable(b, monitor));
             threadArray[index] = t;
             circleArray[index].setVisible(true);
             t.start();
-        } else if (cb.isSelected() && index >= 5) { 
+        } else if (cb.isSelected() && index >= 5) {
             // Writer selected: new blue ball
             Ball b = new Ball(minX, maxX, minCsX, maxCsX, y, Color.BLUE);
             ballArray[index] = b;
-            Thread t = new Thread(new BallRunnable(b));
+            Thread t = new Thread(new BallRunnable(b, monitor));
             threadArray[index] = t;
             circleArray[index].setVisible(true);
             t.start();
@@ -130,7 +133,7 @@ public class MovingBallsFX extends Application {
             circleArray[index].setCenterX(minX);
         }
     }
-    
+
     private void updateCircles() {
         for (int i = 0; i < ballArray.length; i++) {
             Ball b = ballArray[i];
@@ -151,7 +154,7 @@ public class MovingBallsFX extends Application {
             }
         }
     }
-  
+
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be
@@ -163,22 +166,23 @@ public class MovingBallsFX extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     // Update circles each 20 ms
     private class DrawRunnable implements Runnable {
+
         @Override
         public void run() {
             try {
                 while (true) {
                     Thread.sleep(20);
-                    Platform.runLater(new Runnable(){
+                    Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
                             updateCircles();
                         }
                     });
                 }
-            } catch (InterruptedException ex) {  
+            } catch (InterruptedException ex) {
             }
         }
     }
