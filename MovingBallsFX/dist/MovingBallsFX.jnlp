@@ -3,18 +3,18 @@
   <information>
     <title>MovingBallsFX</title>
     <vendor>admin</vendor>
-    <description>Sample JavaFX 2.0 application.</description>
+    <description>null</description>
     <offline-allowed/>
   </information>
   <resources>
-    <jfx:javafx-runtime version="2.2+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+    <jfx:javafx-runtime version="8.0+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="MovingBallsFX.jar" size="24929" download="eager" />
+    <jar href="MovingBallsFX.jar" size="8643" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="MovingBallsFX" >
-    <param name="requiredFXVersion" value="2.2+"/>
+    <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
   <jfx:javafx-desc  width="800" height="600" main-class="movingballsfx.MovingBallsFX"  name="MovingBallsFX" />
   <update check="always"/>
