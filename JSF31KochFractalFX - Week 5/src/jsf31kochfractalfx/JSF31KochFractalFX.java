@@ -54,7 +54,7 @@ public class JSF31KochFractalFX extends Application {
     // Koch panel and its size
     private Canvas kochPanel;
     private final int kpWidth = 500;
-    private final int kpHeight = 500;
+    private final int kpHeight = 505;
     
     @Override
     public void start(Stage primaryStage) {
@@ -161,7 +161,7 @@ public class JSF31KochFractalFX extends Application {
         
         // Create the scene and add the grid pane
         Group root = new Group();
-        Scene scene = new Scene(root, kpWidth+50, kpHeight+170);
+        Scene scene = new Scene(root, kpWidth+80, kpHeight+215);
         root.getChildren().add(grid);
         
         // Define title and assign the scene for main window

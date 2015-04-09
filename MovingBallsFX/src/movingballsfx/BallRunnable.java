@@ -29,39 +29,39 @@ public class BallRunnable implements Runnable {
                 ball.move();
                 if (ball.isEnteringCs()) {
                     if (ball.getColor() == Color.RED) {
-                        monitor.enterReader();
+                        monitor.enterReader(ball);
                     } else if (ball.getColor() == Color.BLUE) {
-                        monitor.enterWriter();
+                        monitor.enterWriter(ball);
                     }
                 }
 
                 if (ball.isLeavingCs()) {
                     if (ball.getColor() == Color.RED) {
-                        monitor.exitReader();
+                        monitor.exitReader(ball);
                     } else if (ball.getColor() == Color.BLUE) {
-                        monitor.exitWriter();
+                        monitor.exitWriter(ball);
                     }
                 }
                 Thread.sleep(ball.getSpeed());
 
                 if (Thread.currentThread().isInterrupted()) {
                     if (ball.getColor() == Color.RED) {
-                        monitor.exitReader();
+                        monitor.exitReader(ball);
                     } else if (ball.getColor() == Color.BLUE) {
-                        monitor.exitWriter();
+                        monitor.exitWriter(ball);
                     }
                 }
 
             } catch (InterruptedException ex) {
                 if (ball.getColor() == Color.RED) {
                     try {
-                        monitor.exitReader();
+                        monitor.exitReader(ball);
                     } catch (InterruptedException ex1) {
 
                     }
                 } else if (ball.getColor() == Color.BLUE) {
                     try {
-                        monitor.exitWriter();
+                        monitor.exitWriter(ball);
                     } catch (InterruptedException ex1) {
 
                     }

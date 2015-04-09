@@ -5,6 +5,8 @@
  */
 package movingballsfx;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,85 +16,86 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class RW {
 
-    private int readersActive;
-    private int writersActive;
-    private int readersWaiting;
-    private int writersWaiting;
+    private List<Ball> readersActiveList;
+    private List<Ball> writersActiveList;
+    private List<Ball> readersWaitingList;
+    private List<Ball> writersWaitingList;
     ReentrantLock monLock;
     Condition okToWrite; //writersActive == 0
     Condition okToRead; //writersActive == 0 && readersActive == 0
 
     public RW() {
-        this.readersActive = 0;
-        this.writersActive = 0;
-        this.readersWaiting = 0;
-        this.writersWaiting = 0;
         this.monLock = new ReentrantLock();
         okToRead = monLock.newCondition();
         okToWrite = monLock.newCondition();
+        readersActiveList = new ArrayList<>();
+        writersActiveList = new ArrayList<>();
+        readersWaitingList = new ArrayList<>();
+        writersWaitingList = new ArrayList<>();
     }
 
-    public void enterReader() throws InterruptedException {
+    public void enterReader(Ball ball) throws InterruptedException {
         monLock.lock();
         try {
-            //todo enterReader
-            while (writersActive > 0 || writersWaiting > 0) {
-                readersWaiting++;
+            while (writersActiveList.size() > 0 || writersWaitingList.size() > 0) {
+                System.err.println("EnterReader");
+                readersWaitingList.add(ball);
                 okToRead.await();
-                readersWaiting--;
+                readersWaitingList.remove(ball);
             }
-            readersActive++;
-            System.err.println("EnterReader");
+            readersActiveList.add(ball);
         } catch (InterruptedException e) {
-            readersWaiting--;
+            readersWaitingList.remove(ball);
             Thread.currentThread().interrupt();
         } finally {
             monLock.unlock();
         }
     }
 
-    public void enterWriter() throws InterruptedException {
+    public void enterWriter(Ball ball) throws InterruptedException {
         monLock.lock();
         try {
-            //todo enterWriter
-            while (writersActive > 0 || readersActive > 0) {
-                writersWaiting++;
+            while (writersActiveList.size() > 0 || readersActiveList.size() > 0) {
+                System.err.println("EnterWriter");
+                writersWaitingList.add(ball);
                 okToWrite.await();
-                writersWaiting--;
+                writersWaitingList.remove(ball);
             }
-            writersActive++;
-            System.err.println("EnterWriter");
+            writersActiveList.add(ball);
         } catch (InterruptedException e) {
-            writersWaiting--;
             Thread.currentThread().interrupt();
         } finally {
             monLock.unlock();
         }
     }
 
-    public void exitReader() throws InterruptedException {
+    public void exitReader(Ball ball) throws InterruptedException {
         monLock.lock();
         try {
-            //todo ExitReader
-            readersActive--;
-            if (readersActive <= 0) {
+            System.err.println("ExitReader");
+            if (readersActiveList.contains(ball)) {
+                readersActiveList.remove(ball);
+            }
+
+            if (readersActiveList.size() <= 0) {
                 okToWrite.signal();
             }
-            System.err.println("ExitReader");
         } finally {
             monLock.unlock();
         }
     }
 
-    public void exitWriter() throws InterruptedException {
+    public void exitWriter(Ball ball) throws InterruptedException {
         monLock.lock();
         try {
-            //todo ExitWriter
-            writersActive--;
+            if (writersActiveList.contains(ball) || writersWaitingList.contains(ball)) {
+                writersActiveList.remove(ball);
+                writersWaitingList.remove(ball);
+            }
 
-            if (writersWaiting >= 1) {
+            if (writersWaitingList.size() >= 1) {
                 okToWrite.signal();
-            } else if (readersWaiting >= 1) {
+            } else if (readersWaitingList.size() >= 1) {
                 okToRead.signalAll();
             } else {
                 okToWrite.signal();
