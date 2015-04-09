@@ -45,7 +45,6 @@ public class RW {
             System.err.println("EnterReader");
         } catch (InterruptedException e) {
             readersWaiting--;
-            readersActive--;
             Thread.currentThread().interrupt();
         } finally {
             monLock.unlock();
@@ -65,7 +64,6 @@ public class RW {
             System.err.println("EnterWriter");
         } catch (InterruptedException e) {
             writersWaiting--;
-            writersActive--;
             Thread.currentThread().interrupt();
         } finally {
             monLock.unlock();
