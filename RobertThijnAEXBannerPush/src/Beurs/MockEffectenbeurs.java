@@ -33,7 +33,7 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
             new Fonds("Shell", 28.48),
             new Fonds("Unilever", 39.46),};
         
-        publisher = new BasicPublisher(new String[]{});
+        publisher = new BasicPublisher(new String[]{"koersen"});
         Timer pollingTimer = new Timer();
         // todo
         pollingTimer.schedule(new TimerTask() {
@@ -59,7 +59,7 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
             f.setKoers(f.getKoers() * change);
             //System.out.println(f.getKoers());
         } 
-        publisher.inform(this, null, null, koersen);
+        publisher.inform(this, "koersen", null, koersen);
     }
 
     @Override

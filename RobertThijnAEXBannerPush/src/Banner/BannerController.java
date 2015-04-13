@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.application.Application;
@@ -17,33 +19,26 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class BannerController extends Application implements RemotePropertyListener, 
-        Serializable {
-
-    private transient AEXBanner banner;
+public class BannerController extends Application implements RemotePropertyListener, Observer {
     private IFonds[] fondsen;
-    private IEffectenbeurs MockEffectenbeurs;
-    public static final transient String bindingName ="MockEffectenbeurs";
-    public static final transient String ip = "192.168.0.100";
-    public static final transient int port = 1099;
-    private transient Registry registry = null;
+    private AEXBanner banner;
+    private BeursListener bl;
     
     @Override
     public void start(Stage primaryStage) {
+        try {
+            bl = new BeursListener();
+            bl.addListener(this, "koersen");
+        }
+        catch (RemoteException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
         banner = new AEXBanner();
         //primaryStage acts as the common stage of the AEXBanner and the 
         //BannerController:
         banner.start(primaryStage);
         
-        try {
-            registry = LocateRegistry.getRegistry(ip, port);
-            System.out.println("Registry located.");
-        } catch (RemoteException ex) {
-            System.out.println(ex.getMessage());
-        }
-               
-        bindBeurs(ip, port);
-
         //create a timer which polls every 2 seconds
         Timer pollingTimer = new Timer();
         // todo
@@ -82,17 +77,6 @@ public class BannerController extends Application implements RemotePropertyListe
             pollingTimer.cancel();
         });
     }
-    
-    public void bindBeurs(String ipAddress, int portNumber) {
-        try {
-            MockEffectenbeurs = (IEffectenbeurs) registry.lookup(bindingName);
-            MockEffectenbeurs.addListener(this, null);
-            System.out.println("Effectenbeurs bound");
-        }
-        catch(Exception ex) {
-            System.out.println("Exception: " + ex.getMessage());
-        }
-    }
    
     /**
      * unfortunately, is needed pro forma to act as runnable class
@@ -106,5 +90,10 @@ public class BannerController extends Application implements RemotePropertyListe
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         this.fondsen = (IFonds[]) evt.getNewValue();
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
