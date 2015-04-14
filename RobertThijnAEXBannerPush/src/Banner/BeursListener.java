@@ -23,7 +23,7 @@ public class BeursListener extends UnicastRemoteObject implements RemoteProperty
     private IFonds[] fondsen;
     private IEffectenbeurs mockEffectenbeurs;
     public static final String bindingName ="MockEffectenbeurs";
-    public static final String ip = "192.168.0.100";
+    public static final String ip = "145.144.250.24";
     public static final int port = 1099;
     private Registry registry = null;
     private BasicPublisher publisher;

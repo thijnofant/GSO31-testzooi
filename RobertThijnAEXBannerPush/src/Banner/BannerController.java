@@ -6,12 +6,7 @@ package Banner;
 import Shared.*;
 import fontys.observer.RemotePropertyListener;
 import java.beans.PropertyChangeEvent;
-import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.application.Application;
@@ -19,7 +14,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class BannerController extends Application implements RemotePropertyListener, Observer {
+public class BannerController extends Application implements RemotePropertyListener {
     private IFonds[] fondsen;
     private AEXBanner banner;
     private BeursListener bl;
@@ -90,10 +85,5 @@ public class BannerController extends Application implements RemotePropertyListe
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         this.fondsen = (IFonds[]) evt.getNewValue();
-    }
-
-    @Override
-    public void update(Observable o, Object o1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
