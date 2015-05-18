@@ -10,6 +10,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  *
@@ -44,9 +45,7 @@ public class GenerateEdgeCallable implements Callable, Observer {
             koch.generateRightEdge();
         }
         
-        synchronized(kochmanager) {
-            kochmanager.count += 1;
-        }
+        kochmanager.barrier.await();
         
         return edges;
     }

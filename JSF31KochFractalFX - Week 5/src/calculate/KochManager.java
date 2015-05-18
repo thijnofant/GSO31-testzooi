@@ -24,7 +24,7 @@ import javafx.application.Platform;
 public class KochManager{
     private JSF31KochFractalFX application;    
     public ArrayList<Edge> edges;
-    public int count = 0;
+    public CyclicBarrier barrier;
     TimeStamp ts;
     ExecutorService pool = Executors.newFixedThreadPool(4);
     Future<List<Edge>> leftedges;
@@ -34,13 +34,10 @@ public class KochManager{
     public KochManager(JSF31KochFractalFX application) {
         this.application = application;
         this.edges = new ArrayList<>();
+        barrier = new CyclicBarrier(4);
     }
     
     public void changeLevel(int nxt) {
-        if (count > 0) {
-            return;
-        }
-        
         edges.clear();   
         ts = new TimeStamp();
         ts.setBegin();
