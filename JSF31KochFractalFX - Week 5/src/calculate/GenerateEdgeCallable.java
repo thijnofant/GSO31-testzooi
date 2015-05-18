@@ -17,17 +17,18 @@ import java.util.concurrent.CyclicBarrier;
  * @author Robert
  */
 public class GenerateEdgeCallable implements Callable, Observer {
-    KochFractal koch = new KochFractal();
-    int level;
-    String direction;
-    KochManager kochmanager;
-    ArrayList<Edge> edges;
+    private KochFractal koch;
+    private int level;
+    private String direction;
+    private KochManager kochmanager;
+    private ArrayList<Edge> edges;
     
     public GenerateEdgeCallable(int level, KochManager manager, String direction) {
         this.level = level;
         this.kochmanager = manager;
         this.direction = direction;
         this.edges = new ArrayList<>();
+        this.koch = new KochFractal();
         this.koch.addObserver(this);
     }
     
@@ -35,13 +36,13 @@ public class GenerateEdgeCallable implements Callable, Observer {
     public List<Edge> call() throws Exception {
         koch.setLevel(level);
         
-        if(direction == "left") {
+        if(direction.equals("left")) {
             koch.generateLeftEdge();
         }
-        if(direction == "bottom") {
+        if(direction.equals("bottom")) {
             koch.generateBottomEdge();
         }
-        if(direction == "right") {
+        if(direction.equals("right")) {
             koch.generateRightEdge();
         }
         
@@ -52,8 +53,6 @@ public class GenerateEdgeCallable implements Callable, Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        //synchronized(kochmanager) {
-            edges.add((Edge)arg);
-        //}
+        edges.add((Edge)arg);
     }
 }

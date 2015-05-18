@@ -246,6 +246,30 @@ public class JSF31KochFractalFX extends Application {
         labelDrawText.setText(text);
     }
     
+    public ProgressBar getLeftProgress() {
+        return leftProgress;
+    }
+    
+    public ProgressBar getBottomProgress() {
+        return bottomProgress;
+    }
+    
+    public ProgressBar getRightProgress() {
+        return rightProgress;
+    }
+    
+    public void setNrEdgesLeft(String text) {
+        labelNrEdgesLeft.setText(text);
+    }
+    
+    public void setNrEdgesBottom(String text) {
+        labelNrEdgesBottom.setText(text);
+    }
+    
+    public void setNrEdgesRight(String text) {
+        labelNrEdgesRight.setText(text);
+    }
+    
     public void requestDrawEdges() {
         Platform.runLater(new Runnable(){
             @Override
