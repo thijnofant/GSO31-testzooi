@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -50,6 +51,17 @@ public class JSF31KochFractalFX extends Application {
     private Label labelCalcText;
     private Label labelDraw;
     private Label labelDrawText;
+    
+    // Progress bars and labels
+    private ProgressBar leftProgress;
+    private ProgressBar bottomProgress;
+    private ProgressBar rightProgress;
+    private Label labelLeftProgress;
+    private Label labelBottomProgress;
+    private Label labelRightProgress;
+    private Label labelNrEdgesLeft;
+    private Label labelNrEdgesBottom;
+    private Label labelNrEdgesRight;
     
     // Koch panel and its size
     private Canvas kochPanel;
@@ -95,6 +107,26 @@ public class JSF31KochFractalFX extends Application {
         labelLevel = new Label("Level: " + currentLevel);
         grid.add(labelLevel, 0, 6);
         
+        // Progress bars and labels
+        leftProgress=new ProgressBar();
+        bottomProgress=new ProgressBar();
+        rightProgress=new ProgressBar();
+        labelLeftProgress=new Label("Progress left:");
+        labelBottomProgress=new Label("Progress bottom:");
+        labelRightProgress=new Label("Progress right:");
+        labelNrEdgesLeft=new Label("Nr edges:");
+        labelNrEdgesBottom=new Label("Nr edges:");
+        labelNrEdgesRight=new Label("Nr edges:");
+        grid.add(leftProgress,5,7);
+        grid.add(bottomProgress,5,8);
+        grid.add(rightProgress,5,9);
+        grid.add(labelLeftProgress,0,7);
+        grid.add(labelBottomProgress,0,8);
+        grid.add(labelRightProgress,0,9);
+        grid.add(labelNrEdgesLeft,6,7);
+        grid.add(labelNrEdgesBottom,6,8);
+        grid.add(labelNrEdgesRight,6,9);
+        
         // Button to increase level of Koch fractal
         Button buttonIncreaseLevel = new Button();
         buttonIncreaseLevel.setText("Increase Level");
@@ -126,7 +158,7 @@ public class JSF31KochFractalFX extends Application {
                 fitFractalButtonActionPerformed(event);
             }
         });
-        grid.add(buttonFitFractal, 14, 6);
+        grid.add(buttonFitFractal, 10, 6);
         
         // Add mouse clicked event to Koch panel
         kochPanel.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -161,7 +193,7 @@ public class JSF31KochFractalFX extends Application {
         
         // Create the scene and add the grid pane
         Group root = new Group();
-        Scene scene = new Scene(root, kpWidth+80, kpHeight+215);
+        Scene scene = new Scene(root, kpWidth+80, kpHeight+265);
         root.getChildren().add(grid);
         
         // Define title and assign the scene for main window
