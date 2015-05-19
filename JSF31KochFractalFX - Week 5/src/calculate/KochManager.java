@@ -38,12 +38,10 @@ public class KochManager{
     
     public void changeLevel(int nxt) {
         if (drawLeft != null) {
-            if (drawLeft.isDone() == false || drawBottom.isDone() == false || drawRight.isDone() == false) {
-                drawLeft.cancel();
-                drawBottom.cancel();
-                drawRight.cancel();
-                application.clearKochPanel();
-            }
+            drawLeft.cancel();
+            drawBottom.cancel();
+            drawRight.cancel();
+            application.clearKochPanel();
         }
         edges.clear();   
         ts = new TimeStamp();

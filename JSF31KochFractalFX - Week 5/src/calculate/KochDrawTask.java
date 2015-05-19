@@ -62,14 +62,13 @@ public class KochDrawTask extends Task implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         final Edge e = (Edge)arg;
+        final Edge e2 = new Edge(e.X1, e.Y1, e.X2, e.Y2, Color.WHITE);
         edges.add(e);
-        e.color = Color.WHITE;
-        updateProgress(edges.size(), expectedEdges);
         Platform.runLater(new Runnable() {
             public void run() {
                 if(direction.equals("left")) {
                     application.setNrEdgesLeft(Integer.toString(edges.size()));
-                    application.drawEdge(e);
+                    application.drawEdge(e2);
                     try {
                         Thread.sleep(1);
                     } catch (InterruptedException ex) {
@@ -78,23 +77,19 @@ public class KochDrawTask extends Task implements Observer{
                 }
                 if(direction.equals("bottom")) {
                     application.setNrEdgesBottom(Integer.toString(edges.size()));
-                    application.drawEdge(e);
-//                    try {
-//                        Thread.sleep(3);
-//                    } catch (InterruptedException ex) {
-//                        Logger.getLogger(KochDrawTask.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
+                    application.drawEdge(e2);
+                    try {
+                        Thread.sleep(2);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(KochDrawTask.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 if(direction.equals("right")) {
                     application.setNrEdgesRight(Integer.toString(edges.size()));
-                    application.drawEdge(e);
-//                    try {
-//                        Thread.sleep(5);
-//                    } catch (InterruptedException ex) {
-//                        Logger.getLogger(KochDrawTask.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
+                    application.drawEdge(e2);
                 }
             }
         });
+        updateProgress(edges.size(), expectedEdges);
     }
 }
