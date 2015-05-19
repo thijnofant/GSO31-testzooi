@@ -79,20 +79,20 @@ public class KochDrawTask extends Task implements Observer{
                 if(direction.equals("bottom")) {
                     application.setNrEdgesBottom(Integer.toString(edges.size()));
                     application.drawEdge(e);
-                    try {
-                        Thread.sleep(3);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(KochDrawTask.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+//                    try {
+//                        Thread.sleep(3);
+//                    } catch (InterruptedException ex) {
+//                        Logger.getLogger(KochDrawTask.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
                 }
                 if(direction.equals("right")) {
                     application.setNrEdgesRight(Integer.toString(edges.size()));
                     application.drawEdge(e);
-                    try {
-                        Thread.sleep(5);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(KochDrawTask.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+//                    try {
+//                        Thread.sleep(5);
+//                    } catch (InterruptedException ex) {
+//                        Logger.getLogger(KochDrawTask.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
                 }
             }
         });
