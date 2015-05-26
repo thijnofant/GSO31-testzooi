@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -51,6 +52,16 @@ public class JSF31KochFractalFX extends Application {
     private Label labelDraw;
     private Label labelDrawText;
     
+    // Labels for Progress
+    private Label labelProgress;
+    private Label labelProgressLeft;
+    private Label labelProgressRight;
+    private Label labelProgressBottom;
+    
+    private ProgressBar barLeft;
+    private ProgressBar barRight;
+    private ProgressBar barBottom;
+    
     // Koch panel and its size
     private Canvas kochPanel;
     private final int kpWidth = 500;
@@ -67,7 +78,7 @@ public class JSF31KochFractalFX extends Application {
         
         // For debug purposes
         // Make de grid lines visible
-        // grid.setGridLinesVisible(true);
+         grid.setGridLinesVisible(true);
         
         // Drawing panel for Koch fractal
         kochPanel = new Canvas(kpWidth,kpHeight);
@@ -76,7 +87,7 @@ public class JSF31KochFractalFX extends Application {
         // Labels to present number of edges for Koch fractal
         labelNrEdges = new Label("Nr edges:");
         labelNrEdgesText = new Label();
-        grid.add(labelNrEdges, 0, 0, 4, 1);
+        //grid.add(labelNrEdges, 0, 0, 4, 1);
         grid.add(labelNrEdgesText, 3, 0, 22, 1);
         
         // Labels to present time of calculation for Koch fractal
@@ -94,6 +105,9 @@ public class JSF31KochFractalFX extends Application {
         // Label to present current level of Koch fractal
         labelLevel = new Label("Level: " + currentLevel);
         grid.add(labelLevel, 0, 6);
+        
+        labelProgress = new Label("Progress:");
+        grid.add(labelLevel, 0, 0, 4, 1);
         
         // Button to increase level of Koch fractal
         Button buttonIncreaseLevel = new Button();

@@ -46,3 +46,6 @@ JSF31KochFractalFX - Week 5/nbproject/private/configs/Run_in_Browser.properties
 *.jar
 RobertThijnAEXBanner/build/built-jar.properties
 ~$O3_Opdracht_AEXBanner.docx
+/BankierenNoObserverFX/build/
+/BankierenNoObserverFX/dist/
+/BankierenNoObserverFX/nbproject/private/
