@@ -7,15 +7,14 @@ package calculate;
 
 import jsf31kochfractalfx.*;
 import timeutil.*;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 
 /**
  *
@@ -24,29 +23,43 @@ import javafx.application.Platform;
 public class KochManager{
     private JSF31KochFractalFX application;    
     public ArrayList<Edge> edges;
-    public int count = 0;
+    public CyclicBarrier barrier;
+    private Task drawLeft;
+    private Task drawBottom;
+    private Task drawRight;
     TimeStamp ts;
     ExecutorService pool = Executors.newFixedThreadPool(4);
-    Future<List<Edge>> leftedges;
-    Future<List<Edge>> bottomedges;
-    Future<List<Edge>> rightedges;
     
     public KochManager(JSF31KochFractalFX application) {
         this.application = application;
         this.edges = new ArrayList<>();
+        barrier = new CyclicBarrier(4);
     }
     
     public void changeLevel(int nxt) {
-        if (count > 0) {
-            return;
+        if (drawLeft != null) {
+            drawLeft.cancel();
+            drawBottom.cancel();
+            drawRight.cancel();
+            application.clearKochPanel();
         }
-        
         edges.clear();   
         ts = new TimeStamp();
+        drawLeft = new KochDrawTask(nxt, this, "left", application);
+        drawBottom = new KochDrawTask(nxt, this, "bottom", application);
+        drawRight = new KochDrawTask(nxt, this, "right", application);
+        application.getLeftProgress().progressProperty().bind(drawLeft.progressProperty());
+        Platform.runLater(new Runnable() {
+            public void run() {
+                application.getLeftProgress().progressProperty().bind(drawLeft.progressProperty());
+                application.getBottomProgress().progressProperty().bind(drawBottom.progressProperty());
+                application.getRightProgress().progressProperty().bind(drawRight.progressProperty());
+            }
+        });
         ts.setBegin();
-        leftedges = pool.submit(new GenerateEdgeCallable(nxt, this, "left"));
-        rightedges = pool.submit(new GenerateEdgeCallable(nxt, this, "right"));
-        bottomedges = pool.submit(new GenerateEdgeCallable(nxt, this, "bottom"));
+        pool.submit(drawLeft);
+        pool.submit(drawBottom);
+        pool.submit(drawRight);
         pool.execute(new WaitingThread(this));
     }
     
@@ -74,20 +87,16 @@ public class KochManager{
          });
         
         try {
-            edges.addAll(leftedges.get());
-            edges.addAll(bottomedges.get());
-            edges.addAll(rightedges.get());
+            edges.addAll((List<Edge>)drawLeft.get());
+            edges.addAll((List<Edge>)drawBottom.get());
+            edges.addAll((List<Edge>)drawRight.get());
         }
         catch(Exception e) {
         }
         
-        requestDrawEdges();
-    }
-    
-    public void requestDrawEdges() {         
         application.requestDrawEdges();
     }
-    
+
     public void stopThreadPool() {
         pool.shutdown();
     }

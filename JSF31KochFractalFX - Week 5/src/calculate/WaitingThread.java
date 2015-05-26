@@ -5,6 +5,10 @@
  */
 package calculate;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Robert
@@ -17,11 +21,13 @@ public class WaitingThread implements Runnable {
     }
     
     public void run() {
-        while (!(koch.count >= 3)) {
-            System.out.println("waiting" + koch.count);
+        try {
+            koch.barrier.await();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(WaitingThread.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BrokenBarrierException ex) {
+            Logger.getLogger(WaitingThread.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        koch.count = 0;
         koch.calcComplete();
     }
 }
