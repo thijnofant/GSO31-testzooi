@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javax.management.monitor.Monitor;
 
 /**
  *
@@ -148,9 +147,9 @@ public class MovingBallsFX extends Application {
     @Override
     public void stop() {
         threadDraw.interrupt();
-        for (int i = 0; i < threadArray.length; i++) {
-            if (threadArray[i] != null) {
-                threadArray[i].interrupt();
+        for (Thread threadArray1 : threadArray) {
+            if (threadArray1 != null) {
+                threadArray1.interrupt();
             }
         }
     }

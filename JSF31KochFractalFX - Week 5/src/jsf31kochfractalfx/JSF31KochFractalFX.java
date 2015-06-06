@@ -52,16 +52,15 @@ public class JSF31KochFractalFX extends Application {
     private Label labelDraw;
     private Label labelDrawText;
     
-    // Progress bars and labels
-    private ProgressBar leftProgress;
-    private ProgressBar bottomProgress;
-    private ProgressBar rightProgress;
-    private Label labelLeftProgress;
-    private Label labelBottomProgress;
-    private Label labelRightProgress;
-    private Label labelNrEdgesLeft;
-    private Label labelNrEdgesBottom;
-    private Label labelNrEdgesRight;
+    // Labels for Progress
+    private Label labelProgress;
+    private Label labelProgressLeft;
+    private Label labelProgressRight;
+    private Label labelProgressBottom;
+    
+    private ProgressBar barLeft;
+    private ProgressBar barRight;
+    private ProgressBar barBottom;
     
     // Koch panel and its size
     private Canvas kochPanel;
@@ -79,7 +78,7 @@ public class JSF31KochFractalFX extends Application {
         
         // For debug purposes
         // Make de grid lines visible
-        // grid.setGridLinesVisible(true);
+         grid.setGridLinesVisible(true);
         
         // Drawing panel for Koch fractal
         kochPanel = new Canvas(kpWidth,kpHeight);
@@ -88,7 +87,7 @@ public class JSF31KochFractalFX extends Application {
         // Labels to present number of edges for Koch fractal
         labelNrEdges = new Label("Nr edges:");
         labelNrEdgesText = new Label();
-        grid.add(labelNrEdges, 0, 0, 4, 1);
+        //grid.add(labelNrEdges, 0, 0, 4, 1);
         grid.add(labelNrEdgesText, 3, 0, 22, 1);
         
         // Labels to present time of calculation for Koch fractal
@@ -107,25 +106,8 @@ public class JSF31KochFractalFX extends Application {
         labelLevel = new Label("Level: " + currentLevel);
         grid.add(labelLevel, 0, 6);
         
-        // Progress bars and labels
-        leftProgress=new ProgressBar();
-        bottomProgress=new ProgressBar();
-        rightProgress=new ProgressBar();
-        labelLeftProgress=new Label("Progress left:");
-        labelBottomProgress=new Label("Progress bottom:");
-        labelRightProgress=new Label("Progress right:");
-        labelNrEdgesLeft=new Label("Nr edges:");
-        labelNrEdgesBottom=new Label("Nr edges:");
-        labelNrEdgesRight=new Label("Nr edges:");
-        grid.add(leftProgress,5,7);
-        grid.add(bottomProgress,5,8);
-        grid.add(rightProgress,5,9);
-        grid.add(labelLeftProgress,0,7);
-        grid.add(labelBottomProgress,0,8);
-        grid.add(labelRightProgress,0,9);
-        grid.add(labelNrEdgesLeft,6,7);
-        grid.add(labelNrEdgesBottom,6,8);
-        grid.add(labelNrEdgesRight,6,9);
+        labelProgress = new Label("Progress:");
+        grid.add(labelLevel, 0, 0, 4, 1);
         
         // Button to increase level of Koch fractal
         Button buttonIncreaseLevel = new Button();
@@ -158,7 +140,7 @@ public class JSF31KochFractalFX extends Application {
                 fitFractalButtonActionPerformed(event);
             }
         });
-        grid.add(buttonFitFractal, 10, 6);
+        grid.add(buttonFitFractal, 14, 6);
         
         // Add mouse clicked event to Koch panel
         kochPanel.addEventHandler(MouseEvent.MOUSE_CLICKED,
@@ -193,7 +175,7 @@ public class JSF31KochFractalFX extends Application {
         
         // Create the scene and add the grid pane
         Group root = new Group();
-        Scene scene = new Scene(root, kpWidth+80, kpHeight+265);
+        Scene scene = new Scene(root, kpWidth+80, kpHeight+215);
         root.getChildren().add(grid);
         
         // Define title and assign the scene for main window
@@ -244,30 +226,6 @@ public class JSF31KochFractalFX extends Application {
     
     public void setTextDraw(String text) {
         labelDrawText.setText(text);
-    }
-    
-    public ProgressBar getLeftProgress() {
-        return leftProgress;
-    }
-    
-    public ProgressBar getBottomProgress() {
-        return bottomProgress;
-    }
-    
-    public ProgressBar getRightProgress() {
-        return rightProgress;
-    }
-    
-    public void setNrEdgesLeft(String text) {
-        labelNrEdgesLeft.setText(text);
-    }
-    
-    public void setNrEdgesBottom(String text) {
-        labelNrEdgesBottom.setText(text);
-    }
-    
-    public void setNrEdgesRight(String text) {
-        labelNrEdgesRight.setText(text);
     }
     
     public void requestDrawEdges() {
