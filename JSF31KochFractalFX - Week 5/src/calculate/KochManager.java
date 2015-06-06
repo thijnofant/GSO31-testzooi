@@ -22,7 +22,10 @@ import javafx.concurrent.Task;
  */
 public class KochManager{
     private JSF31KochFractalFX application;    
-    public ArrayList<Edge> edges;
+    private ArrayList<Edge> edges;
+    public ArrayList<Edge> bottomEdges;
+    public ArrayList<Edge> leftEdges;
+    public ArrayList<Edge> rightEdges;
     public CyclicBarrier barrier;
     private Task drawLeft;
     private Task drawBottom;
@@ -33,6 +36,9 @@ public class KochManager{
     public KochManager(JSF31KochFractalFX application) {
         this.application = application;
         this.edges = new ArrayList<>();
+        this.bottomEdges = new ArrayList<>();
+        this.leftEdges = new ArrayList<>();
+        this.rightEdges = new ArrayList<>();
         barrier = new CyclicBarrier(4);
     }
     
