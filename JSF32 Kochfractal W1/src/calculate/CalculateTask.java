@@ -7,6 +7,8 @@ package calculate;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
@@ -68,6 +70,11 @@ public class CalculateTask extends Task implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
+        try {
+            Thread.sleep(2);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CalculateTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (stopRequested)
             return;
         Edge edge = (Edge) o1;
@@ -82,7 +89,6 @@ public class CalculateTask extends Task implements Observer {
         if (side.equals("right")) {
             kochManager.rightEdges.add(edge);
             updateProgress(kochManager.rightEdges.size(), expectedEdges);
-            System.out.println("yes");
         }
 
         final Edge edge2 = new Edge(edge.X1, edge.Y1, edge.X2, edge.Y2, Color.WHITE);

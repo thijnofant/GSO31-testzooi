@@ -46,6 +46,7 @@ public class KochManager {
             calculateLeft.stopTask();
             calculateRight.stopTask();
             cyclicBarrier.reset();
+            application.clearKochPanel();
         }
         calculateBottom = new CalculateTask(nxt, this, "bottom", application);
         calculateLeft = new CalculateTask(nxt, this, "left", application);
