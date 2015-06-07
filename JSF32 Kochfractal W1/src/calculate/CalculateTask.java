@@ -45,20 +45,22 @@ public class CalculateTask extends Task implements Observer {
         this.kochFractal.setLevel(kochLevel);
         this.kochFractal.addObserver(this);
         
-        if (this.side.equals("bottom")) {
+        if(side.equals("bottom")) {
             kochFractal.generateBottomEdge();
         }
-        if (this.side.equals("left")) {
+        if(side.equals("left")) {
             kochFractal.generateLeftEdge();
         }
-        if (this.side.equals("right")) {
+        if(side.equals("right")) {
             kochFractal.generateRightEdge();
         }
         
         kochManager.cyclicBarrier.await();
         
-        if (this.side.equals("bottom")) {
-            kochManager.calculationComplete();
+        if (side.equals("right")) {
+            if (stopRequested == false) { 
+                kochManager.calculationComplete();
+            }
         }
         
         return null;
@@ -69,18 +71,33 @@ public class CalculateTask extends Task implements Observer {
         if (stopRequested)
             return;
         Edge edge = (Edge) o1;
-        switch (side) {
-            case "bottom":  kochManager.bottomEdges.add(edge);
-                            updateProgress(kochManager.bottomEdges.size(), expectedEdges);
-            case "left":    kochManager.leftEdges.add(edge);
-                            updateProgress(kochManager.leftEdges.size(), expectedEdges);
-            case "right":   kochManager.rightEdges.add(edge);
-                            updateProgress(kochManager.rightEdges.size(), expectedEdges);
+        if (side.equals("bottom")) {
+            kochManager.bottomEdges.add(edge);
+            updateProgress(kochManager.bottomEdges.size(), expectedEdges);
         }
+        if (side.equals("left")) {
+            kochManager.leftEdges.add(edge);
+            updateProgress(kochManager.leftEdges.size(), expectedEdges);
+        }
+        if (side.equals("right")) {
+            kochManager.rightEdges.add(edge);
+            updateProgress(kochManager.rightEdges.size(), expectedEdges);
+            System.out.println("yes");
+        }
+
         final Edge edge2 = new Edge(edge.X1, edge.Y1, edge.X2, edge.Y2, Color.WHITE);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+                if(side.equals("bottom")) {
+                    application.setNrEdgesBottom(Integer.toString(kochManager.bottomEdges.size()));
+                }
+                if(side.equals("left")) {
+                    application.setNrEdgesLeft(Integer.toString(kochManager.leftEdges.size()));
+                }
+                if(side.equals("right")) {
+                    application.setNrEdgesRight(Integer.toString(kochManager.rightEdges.size()));
+                }
                 application.drawEdge(edge2);
             }
         });

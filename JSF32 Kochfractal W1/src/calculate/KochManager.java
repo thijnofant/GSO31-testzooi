@@ -6,7 +6,6 @@
 package calculate;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -47,10 +46,6 @@ public class KochManager {
             calculateLeft.stopTask();
             calculateRight.stopTask();
             cyclicBarrier.reset();
-            edges.clear();
-            bottomEdges.clear();
-            leftEdges.clear();
-            rightEdges.clear();
         }
         calculateBottom = new CalculateTask(nxt, this, "bottom", application);
         calculateLeft = new CalculateTask(nxt, this, "left", application);
@@ -58,6 +53,10 @@ public class KochManager {
         application.getBottomProgress().progressProperty().bind(calculateBottom.progressProperty());
         application.getLeftProgress().progressProperty().bind(calculateLeft.progressProperty());
         application.getRightProgress().progressProperty().bind(calculateRight.progressProperty());
+        bottomEdges.clear();
+        leftEdges.clear();
+        rightEdges.clear();
+        edges.clear();
         this.calcTimeStamp = new TimeStamp();
         calcTimeStamp.setBegin("Begin calculation");
         threadPool.submit(calculateBottom);
