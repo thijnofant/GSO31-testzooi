@@ -44,7 +44,7 @@ public class BalieTest {
      */
     @Test
     public void testOpenRekening() throws Exception {
-        System.out.println("openRekening");
+        System.out.println("openRekeningTest");
         Bank testBank = new Bank("testBank");
         Balie instance = new Balie(testBank);
         String naam = "tester";
@@ -52,7 +52,6 @@ public class BalieTest {
         String wachtwoord = "test";
         int reknr = testBank.openRekening(naam, plaats)+1;
         String accountnaam = instance.openRekening(naam, plaats, wachtwoord);
-        System.out.println(accountnaam);
         
         String expResult = null;
         String result = instance.openRekening(naam, plaats, wachtwoord);
@@ -65,7 +64,7 @@ public class BalieTest {
      */
     @Test
     public void testLogIn() throws Exception {
-        System.out.println("logIn");
+        System.out.println("logInTest");
         Bank testBank = new Bank("testBank");
         Balie instance = new Balie(testBank);
         String naam = "tester";
@@ -73,7 +72,6 @@ public class BalieTest {
         String wachtwoord = "test";
         int reknr = testBank.openRekening(naam, plaats);
         String accountnaam = instance.openRekening(naam, plaats, wachtwoord);
-        System.out.println(accountnaam);
         
         IBankiersessie expResult = new Bankiersessie(reknr+1,testBank);
         IBankiersessie result = instance.logIn(accountnaam, wachtwoord);
