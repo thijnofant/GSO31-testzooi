@@ -6,12 +6,13 @@
 package bank.centralebank;
 
 import bank.bankieren.Money;
+import java.rmi.Remote;
 
 /**
  *
  * @author Thijn
  */
-public interface ICentraleBank {
+public interface ICentraleBank extends Remote{
     /**
      * Deze methode handeld de transacties tussen 2 banken af.
      * @param source rekeningNr van de rekening waar het geld van wordt afgeschreven.

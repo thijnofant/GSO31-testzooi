@@ -9,7 +9,7 @@ package bank.bankieren;
  *
  * @author Thijn
  */
-public interface IBankForCentrale {
+public interface IBankForCentrale extends remote {
     /**
      * Deze methode Zorgt dat de bank het bedrag afschrijft van de meegegeven rekening.
      * @param nrVan het rekeningsNummer van de rekening waar het geld van komt.
