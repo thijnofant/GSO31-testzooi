@@ -5,7 +5,7 @@ import fontys.util.*;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class Bank implements IBank {
+public class Bank implements IBank, IBankForCentrale {
 
 	/**
 	 * 

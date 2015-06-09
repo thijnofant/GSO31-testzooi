@@ -27,7 +27,7 @@ public class BankTest {
      */
     @Test
     public void testOpenRekening() {
-        System.out.println("openRekening");
+        System.out.println("openRekeningTest");
         String name = "testPers1";
         String city = "Eindhoven";
         Bank instance = new Bank("testbank1");
@@ -41,7 +41,7 @@ public class BankTest {
      */
     @Test
     public void testGetRekening() {
-        System.out.println("getRekening");
+        System.out.println("getRekeningTest");
         Bank instance = new Bank("testbank1");
         int nr = instance.openRekening("testPers", "Eindhoven");
         IRekening result = instance.getRekening(nr);
@@ -53,7 +53,7 @@ public class BankTest {
      */
     @Test
     public void testMaakOver() throws Exception {
-        System.out.println("maakOver");
+        System.out.println("maakOverTest");
         Bank instance = new Bank("testbank1");
         int source = instance.openRekening("testperson1", "Eindhoven");
         int destination = instance.openRekening("testperson2", "Eindhoven");
@@ -77,7 +77,7 @@ public class BankTest {
      */
     @Test
     public void testGetName() {
-        System.out.println("getName");
+        System.out.println("getNameTest");
         Bank instance = new Bank("testbank1");
         String expResult = "testbank1";
         String result = instance.getName();
