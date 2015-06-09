@@ -1,12 +1,15 @@
 package bank.bankieren;
 
 import fontys.util.*;
+import java.rmi.RemoteException;
+import observer.RemotePropertyListener;
+import observer.RemotePublisher;
 
 /**
  * @author 871059
  * 
  */
-public interface IBank {
+public interface IBank extends RemotePublisher {
 
     /**
      * creatie van een nieuwe bankrekening met een identificerend rekeningnummer; 
@@ -50,4 +53,12 @@ public interface IBank {
      * @return de naam van deze bank
      */
     String getName();
+    
+    @Override
+    void addListener(RemotePropertyListener listener, String property)
+            throws RemoteException;
+    
+    @Override
+    void removeListener(RemotePropertyListener listener, String property)
+            throws RemoteException;
 }

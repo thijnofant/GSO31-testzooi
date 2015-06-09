@@ -1,5 +1,6 @@
 package bank.internettoegang;
 
+import bank.bankieren.IBank;
 import java.rmi.*;
 
 
@@ -28,6 +29,7 @@ public interface IBalie extends Remote {
    * account mits accountnaam en wachtwoord matchen, anders null
    */
   IBankiersessie logIn(String accountnaam, String wachtwoord) throws RemoteException;
-
+  
+  IBank getBank() throws RemoteException;
 }
 

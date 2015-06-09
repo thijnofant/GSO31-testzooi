@@ -59,6 +59,7 @@ public class BankierSessieController implements Initializable, RemotePropertyLis
         this.balie = balie;
         this.sessie = sessie;
         this.application = application;
+        
         IRekening rekening = null;
         try {
             rekening = sessie.getRekening();
@@ -73,6 +74,11 @@ public class BankierSessieController implements Initializable, RemotePropertyLis
 
         } catch (RemoteException ex) {
             taMessage.setText("verbinding verbroken");
+            Logger.getLogger(BankierSessieController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            this.balie.getBank().addListener(this, Integer.toString(rekening.getNr()));
+        } catch (RemoteException ex) {
             Logger.getLogger(BankierSessieController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

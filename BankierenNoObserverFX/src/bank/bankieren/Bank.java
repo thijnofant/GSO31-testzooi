@@ -6,8 +6,11 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import observer.BasicPublisher;
+import observer.RemotePropertyListener;
+import observer.RemotePublisher;
 
-public class Bank implements IBank, IBankForCentrale {
+public class Bank implements IBank, IBankForCentrale, RemotePublisher {
 
     /**
      *
@@ -17,12 +20,14 @@ public class Bank implements IBank, IBankForCentrale {
     private Collection<IKlant> clients;
     private int nieuwReknr;
     private String name;
+    private BasicPublisher publisher;
 
     public Bank(String name) {
         accounts = new HashMap<Integer, IRekeningTbvBank>();
         clients = new ArrayList<IKlant>();
         nieuwReknr = 100000000;
         this.name = name;
+        this.publisher = new BasicPublisher(new String[]{});
     }
 
     public int openRekening(String name, String city) {
@@ -105,6 +110,7 @@ public class Bank implements IBank, IBankForCentrale {
         if (!success) {
             return false;
         }
+        publisher.inform(this, Integer.toString(nrVan), null, getRekening(nrVan).getSaldo());
         return true;
     }
 
@@ -125,12 +131,24 @@ public class Bank implements IBank, IBankForCentrale {
         synchronized (getRekening(nrNaar)) {
             success = dest_account.muteer(amount);
         }
+        publisher.inform(this, Integer.toString(nrNaar), null, getRekening(nrNaar).getSaldo());
         return success;
     }
 
     @Override
     public boolean rekeningVanBank(int rekNr) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+        publisher.addListener(listener, property);
+        System.out.println("Listener added.");
+    }
+
+    @Override
+    public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
+        publisher.addListener(listener, property);
     }
 
 }
