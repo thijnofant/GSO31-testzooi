@@ -63,7 +63,13 @@ public class Bank implements IBank {
 
 		Money negative = Money.difference(new Money(0, money.getCurrency()),
 				money);
-		boolean success = source_account.muteer(negative);
+                boolean success;
+                
+                //Race condition
+                synchronized (getRekening(source)) {
+                    success = source_account.muteer(negative);
+                }
+                
 		if (!success)
 			return false;
 
@@ -71,7 +77,11 @@ public class Bank implements IBank {
 		if (dest_account == null) 
 			throw new NumberDoesntExistException("account " + destination
 					+ " unknown at " + name);
-		success = dest_account.muteer(money);
+                
+                //Race condition
+                synchronized (getRekening(destination)) {
+                    success = dest_account.muteer(money);
+                }
 
 		if (!success) // rollback
 			source_account.muteer(money);
