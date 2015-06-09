@@ -74,7 +74,10 @@ public class Bank implements IBank {
 		success = dest_account.muteer(money);
 
 		if (!success) // rollback
+                {
 			source_account.muteer(money);
+                        return false;
+                }
 		return success;
 	}
 
