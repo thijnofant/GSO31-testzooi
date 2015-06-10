@@ -139,6 +139,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         if (!success) {
             return false;
         }
+        publisher.addProperty(Integer.toString(nrVan));
         publisher.inform(this, Integer.toString(nrVan), null, getRekening(nrVan).getSaldo());
         return true;
     }
@@ -160,6 +161,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         synchronized (getRekening(nrNaar)) {
             success = dest_account.muteer(amount);
         }
+        publisher.addProperty(Integer.toString(nrNaar));
         publisher.inform(this, Integer.toString(nrNaar), null, getRekening(nrNaar).getSaldo());
         return success;
     }
@@ -171,8 +173,9 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
 
     @Override
     public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+        publisher.addProperty(property);
         publisher.addListener(listener, property);
-        System.out.println("Listener added.");
+        System.out.println("Listener toegevoegd aan bank: " + property);
     }
 
     @Override

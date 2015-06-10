@@ -28,6 +28,7 @@ public class Bankiersessie extends UnicastRemoteObject implements
 		this.reknr = reknr;
 		this.bank = bank;
                 this.publisher = new BasicPublisher(new String[]{});
+                this.bank.addListener(this, Integer.toString(reknr));
 		
 	}
 
@@ -80,7 +81,9 @@ public class Bankiersessie extends UnicastRemoteObject implements
 
     @Override
     public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+        publisher.addProperty(property);
         publisher.addListener(listener, property);
+        System.out.println("Listener toegevoegd aan banksessie: " + property);
     }
 
     @Override

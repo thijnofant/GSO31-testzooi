@@ -32,7 +32,8 @@ import observer.RemotePropertyListener;
  *
  * @author frankcoenen
  */
-public class BankierSessieController implements Initializable, RemotePropertyListener {
+public class BankierSessieController extends UnicastRemoteObject    
+implements Initializable, RemotePropertyListener {
 
     @FXML
     private Hyperlink hlLogout;
@@ -52,9 +53,13 @@ public class BankierSessieController implements Initializable, RemotePropertyLis
 
     private TextArea taMessage;
 
-    private BankierClient application;
-    private IBalie balie;
-    private IBankiersessie sessie;
+    private transient BankierClient application;
+    private transient IBalie balie;
+    private transient IBankiersessie sessie;
+    
+    public BankierSessieController() throws RemoteException {
+
+    }
 
     public void setApp(BankierClient application, IBalie balie, IBankiersessie sessie) {
         this.balie = balie;
@@ -76,11 +81,6 @@ public class BankierSessieController implements Initializable, RemotePropertyLis
 
         } catch (RemoteException ex) {
             taMessage.setText("verbinding verbroken");
-            Logger.getLogger(BankierSessieController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            this.balie.getBank().addListener(this, Integer.toString(rekening.getNr()));
-        } catch (RemoteException ex) {
             Logger.getLogger(BankierSessieController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
