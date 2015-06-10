@@ -8,6 +8,8 @@ package bank.centralebank;
 import bank.bankieren.Bank;
 import bank.bankieren.IBankForCentrale;
 import bank.bankieren.Money;
+import bank.internettoegang.IBalie;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -87,22 +89,22 @@ public class CentraleBank extends UnicastRemoteObject implements ICentraleBank{
     
     public void bindBanken(){
         try {
-            remoteBanken.clear();
+            remoteBanken.clear();            
             
             registry = LocateRegistry.getRegistry("localhost",1101);
-            remoteBanken.add((IBankForCentrale) registry.lookup("Rabobank"));
+            remoteBanken.add((IBankForCentrale) registry.lookup("Rabobankb"));
             
             registry = LocateRegistry.getRegistry("localhost",1102);
-            remoteBanken.add((IBankForCentrale) registry.lookup("ING"));
+            remoteBanken.add((IBankForCentrale) registry.lookup("INGb"));
             
             registry = LocateRegistry.getRegistry("localhost",1103);
-            remoteBanken.add((IBankForCentrale) registry.lookup("SNS"));
+            remoteBanken.add((IBankForCentrale) registry.lookup("SNSb"));
             
             registry = LocateRegistry.getRegistry("localhost",1104);
-            remoteBanken.add((IBankForCentrale) registry.lookup("ABN AMBRO"));
+            remoteBanken.add((IBankForCentrale) registry.lookup("ABN AMBROb"));
             
             registry = LocateRegistry.getRegistry("localhost",1105);
-            remoteBanken.add((IBankForCentrale) registry.lookup("ASN"));
+            remoteBanken.add((IBankForCentrale) registry.lookup("ASNb"));
         } catch (RemoteException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotBoundException ex) {

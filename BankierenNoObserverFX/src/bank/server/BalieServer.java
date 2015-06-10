@@ -6,6 +6,8 @@
 package bank.server;
 
 import bank.bankieren.Bank;
+import static bank.centralebank.CentraleRMI.bindingName;
+import static bank.centralebank.CentraleRMI.poortNr;
 import bank.gui.BankierClient;
 import bank.internettoegang.Balie;
 import bank.internettoegang.IBalie;
@@ -13,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +39,7 @@ public class BalieServer extends Application {
     private final double MINIMUM_WINDOW_WIDTH = 600.0;
     private final double MINIMUM_WINDOW_HEIGHT = 200.0;
     private String nameBank;
+    private Registry register;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -53,34 +58,57 @@ public class BalieServer extends Application {
     }
 
     public boolean startBalie(String nameBank) {
-            
-            FileOutputStream out = null;
-            try {
-                this.nameBank = nameBank;
-                String address = java.net.InetAddress.getLocalHost().getHostAddress();
-                int port = 1099;
-                Properties props = new Properties();
-                String rmiBalie = address + ":" + port + "/" + nameBank;
-                props.setProperty("balie", rmiBalie);
-                out = new FileOutputStream(nameBank + ".props");
-                props.store(out, null);
-                out.close();
-                java.rmi.registry.LocateRegistry.createRegistry(port);
-                IBalie balie = new Balie(new Bank(nameBank));
-                Naming.rebind(nameBank, balie);
-               
-                return true;
 
+        FileOutputStream out = null;
+        try {
+            this.nameBank = nameBank;
+            String address = java.net.InetAddress.getLocalHost().getHostAddress();
+            
+            int port = 1099;
+            if (nameBank.equals("Rabobank")) {
+                port = 1101;
+            }
+            else if (nameBank.equals("ING")) {
+                port = 1102;
+            }
+            else if (nameBank.equals("SNS")) {
+                port = 1103;
+            }
+            else if (nameBank.equals("ABN AMBRO")) {
+                port = 1104;
+            }
+            else if (nameBank.equals("ING")) {
+                port = 1105;
+            }
+
+            Properties props = new Properties();
+            String rmiBalie = address + ":" + port + "/" + nameBank;
+            props.setProperty("balie", rmiBalie);
+            out = new FileOutputStream(nameBank + ".props");
+            props.store(out, null);
+            out.close();
+            register = LocateRegistry.createRegistry(port);
+            Bank forLookUp = new Bank(nameBank);
+            IBalie balie = new Balie(forLookUp);
+            
+            System.out.println(nameBank);
+            System.out.println(port);
+            
+            register.rebind(nameBank, balie);
+            register.rebind(nameBank + "b", forLookUp);
+
+            return true;
+
+        } catch (IOException ex) {
+            Logger.getLogger(BalieServer.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
             } catch (IOException ex) {
                 Logger.getLogger(BalieServer.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    out.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(BalieServer.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
-            return false;
+        }
+        return false;
     }
 
     public void gotoBankSelect() {
