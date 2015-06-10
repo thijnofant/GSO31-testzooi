@@ -10,6 +10,7 @@ import bank.bankieren.Money;
 import fontys.util.InvalidSessionException;
 import fontys.util.NumberDoesntExistException;
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import observer.BasicPublisher;
 import observer.RemotePropertyListener;
 import observer.RemotePublisher;
@@ -81,13 +82,21 @@ public class Bankiersessie extends UnicastRemoteObject implements
 
     @Override
     public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
-        publisher.addProperty(property);
+        boolean propertyExists = false;
+        for (String s : (ArrayList<String>) publisher.getProperties()) {
+            if (s.equals(property)) {
+                propertyExists = true;
+            }
+        }
+        if (!propertyExists)
+            publisher.addProperty(property);
         publisher.addListener(listener, property);
         System.out.println("Listener toegevoegd aan banksessie: " + property);
     }
 
     @Override
     public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
+        this.bank.removeListener(this, property);
         publisher.removeListener(listener, property);
     }
 }

@@ -76,6 +76,7 @@ implements Initializable, RemotePropertyListener {
                     + rekening.getEigenaar().getPlaats();
             tfNameCity.setText(eigenaar);
         } catch (InvalidSessionException ex) {
+            stopListening();
             taMessage.setText("bankiersessie is verlopen");
             Logger.getLogger(BankierSessieController.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -95,6 +96,7 @@ implements Initializable, RemotePropertyListener {
     @FXML
     private void logout(ActionEvent event) {
         try {
+            stopListening();
             sessie.logUit();
             application.gotoLogin(balie, "");
         } catch (RemoteException e) {
@@ -115,9 +117,23 @@ implements Initializable, RemotePropertyListener {
         } catch (RemoteException e1) {
             e1.printStackTrace();
             taMessage.setText("verbinding verbroken");
-        } catch (NumberDoesntExistException | InvalidSessionException e1) {
+        } catch (NumberDoesntExistException e1) {
             e1.printStackTrace();
             taMessage.setText(e1.getMessage());
+        } catch (InvalidSessionException e1) {
+            stopListening();
+            e1.printStackTrace();
+            taMessage.setText(e1.getMessage());
+        }
+    }
+    
+    private void stopListening() {
+        try {
+            this.sessie.removeListener(this, Integer.toString(sessie.getRekening().getNr()));
+        } catch (InvalidSessionException ex) {
+            Logger.getLogger(BankierSessieController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(BankierSessieController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
