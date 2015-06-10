@@ -6,6 +6,7 @@
 package bank.bankieren;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -18,7 +19,7 @@ public interface IBankForCentrale extends Remote {
      * @param amount De hoeveelheid geld dat overgeschreven gaat worden.
      * @return true als het gelukt is, false als het niet gelukt is.
      */
-    public boolean Afschrijven(int nrVan, Money amount);
+    public boolean Afschrijven(int nrVan, Money amount) throws RemoteException;
     
     /**
      * Deze methode Zorgt dat de bank het bedrag bijschrijft naar de meegegeven rekening.
@@ -26,12 +27,12 @@ public interface IBankForCentrale extends Remote {
      * @param amount De hoeveelheid geld dat overgeschreven gaat worden.
      * @return true als het gelukt is, false als het niet gelukt is.
      */
-    public boolean Bijschrijven(int nrNaar, Money amount);
+    public boolean Bijschrijven(int nrNaar, Money amount) throws RemoteException;
     
     /**
      * Deze methode controleerd of de rekening bij deze bank hoort
      * @param rekNr
      * @return true als de rekening bekend is bij die bank, false als hij niet bij deze bank hoort
      */
-    public boolean rekeningVanBank(int rekNr);
+    public boolean rekeningVanBank(int rekNr) throws RemoteException;
 }

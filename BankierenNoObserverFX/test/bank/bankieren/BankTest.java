@@ -5,6 +5,7 @@
  */
 package bank.bankieren;
 
+import java.rmi.RemoteException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -26,7 +27,7 @@ public class BankTest {
      * Test of openRekening method, of class Bank.
      */
     @Test
-    public void testOpenRekening() {
+    public void testOpenRekening() throws RemoteException {
         System.out.println("openRekeningTest");
         String name = "testPers1";
         String city = "Eindhoven";
@@ -40,7 +41,7 @@ public class BankTest {
      * Test of getRekening method, of class Bank.
      */
     @Test
-    public void testGetRekening() {
+    public void testGetRekening() throws RemoteException {
         System.out.println("getRekeningTest");
         Bank instance = new Bank("testbank1");
         int nr = instance.openRekening("testPers", "Eindhoven");
@@ -76,7 +77,7 @@ public class BankTest {
      * Test of getName method, of class Bank.
      */
     @Test
-    public void testGetName() {
+    public void testGetName() throws RemoteException {
         System.out.println("getNameTest");
         Bank instance = new Bank("testbank1");
         String expResult = "testbank1";

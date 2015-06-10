@@ -41,7 +41,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
 
     public void bindCentraleBank(){
         try {
-            registry = LocateRegistry.getRegistry("localhost",1099);
+            registry = LocateRegistry.getRegistry("localhost",1100);
             remoteCentraleBank = (ICentraleBank) registry.lookup("Centrale");
         } catch (RemoteException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
