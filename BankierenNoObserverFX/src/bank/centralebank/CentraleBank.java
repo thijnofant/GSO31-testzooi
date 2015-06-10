@@ -5,9 +5,13 @@
  */
 package bank.centralebank;
 
+import bank.bankieren.Bank;
 import bank.bankieren.IBankForCentrale;
 import bank.bankieren.Money;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ListIterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,18 +28,45 @@ import java.util.ListIterator;
  */
 public class CentraleBank extends UnicastRemoteObject implements ICentraleBank{
     private int nieuwReknr;
-    private List<IBankForCentrale> banken = new ArrayList<>();
+    private List<IBankForCentrale> remoteBanken;
+    private Registry registry;
     
     public CentraleBank() throws RemoteException{
         nieuwReknr = 100000000;
+        remoteBanken = new ArrayList<>();
     }
 
     @Override
     public boolean transactieTussenBanken(int source, int destination, Money amount) throws RemoteException {
-        for (IBankForCentrale get : banken) {
-            
+        
+        if (source == destination) {
+            throw new RuntimeException(
+                    "cannot transfer money to your own account");
         }
-        return false;
+        
+        if (!amount.isPositive()) {
+            throw new RuntimeException("money must be positive");
+        }
+        
+        Money negative = Money.difference(new Money(0, amount.getCurrency()),amount);
+        boolean success1 = false;
+        boolean success2 = false;
+        
+        IBankForCentrale sourcebank = getBankByRekNr(source);
+        IBankForCentrale destbank = getBankByRekNr(destination);
+        
+        success1 = sourcebank.Afschrijven(source, amount);
+
+        if (success1){
+            success2 = destbank.Bijschrijven(destination, amount);
+        }
+
+        if (!success2 && success1) // rollback
+        {
+            sourcebank.Bijschrijven(source, amount);
+            return false;
+        }
+        return success1;
     }
 
     @Override
@@ -43,4 +76,37 @@ public class CentraleBank extends UnicastRemoteObject implements ICentraleBank{
         return returnval;
     }
     
+    public IBankForCentrale getBankByRekNr(int rekNr) throws RemoteException{
+        for (IBankForCentrale get : remoteBanken) {
+           if(get.rekeningVanBank(rekNr)){
+               return get;
+           }
+        }
+        return null;
+    }
+    
+    public void bindBanken(){
+        try {
+            remoteBanken.clear();
+            
+            registry = LocateRegistry.getRegistry("localhost",1101);
+            remoteBanken.add((IBankForCentrale) registry.lookup("Rabobank"));
+            
+            registry = LocateRegistry.getRegistry("localhost",1102);
+            remoteBanken.add((IBankForCentrale) registry.lookup("ING"));
+            
+            registry = LocateRegistry.getRegistry("localhost",1103);
+            remoteBanken.add((IBankForCentrale) registry.lookup("SNS"));
+            
+            registry = LocateRegistry.getRegistry("localhost",1104);
+            remoteBanken.add((IBankForCentrale) registry.lookup("ABN AMBRO"));
+            
+            registry = LocateRegistry.getRegistry("localhost",1105);
+            remoteBanken.add((IBankForCentrale) registry.lookup("ASN"));
+        } catch (RemoteException ex) {
+            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

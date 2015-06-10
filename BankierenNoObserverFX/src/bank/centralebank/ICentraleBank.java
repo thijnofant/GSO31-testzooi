@@ -20,13 +20,20 @@ public interface ICentraleBank extends Remote{
      * @param destination rekeningNr van de rekening waar het geld naar toe word gestuurd
      * @param amount het bedrag dat overgeschreven wordt
      * @return een Boolean die true is als de transactie voltooid is
+     * @throws java.rmi.RemoteException
      */
     public boolean transactieTussenBanken(int source, int destination, Money amount) throws RemoteException;
 
     /**
      * Deze methode haalt het nieuwste rekeningsnummer op.
      * @return returned een rekeningnummer.
+     * @throws java.rmi.RemoteException
      */
     public int getNieuwRekNR() throws RemoteException;
 
+    /**
+     * 
+     * @throws RemoteException 
+     */
+    public void bindBanken() throws RemoteException;
 }
