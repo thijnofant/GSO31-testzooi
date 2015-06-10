@@ -15,7 +15,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ListIterator;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  *
@@ -30,15 +29,15 @@ public class CentraleBank extends UnicastRemoteObject implements ICentraleBank{
     }
 
     @Override
-    public boolean transactieTussenBanken(int source, int destination, Money amount) {
+    public boolean transactieTussenBanken(int source, int destination, Money amount) throws RemoteException {
         for (IBankForCentrale get : banken) {
             
         }
-        throw new NotImplementedException();
+        return false;
     }
 
     @Override
-    public synchronized int getNieuwRekNR() {
+    public synchronized int getNieuwRekNR() throws RemoteException {
         int returnval = nieuwReknr;
         nieuwReknr++;
         return returnval;

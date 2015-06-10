@@ -5,11 +5,13 @@
  */
 package bank.bankieren;
 
+import java.rmi.Remote;
+
 /**
  *
  * @author Thijn
  */
-public interface IBankForCentrale extends remote {
+public interface IBankForCentrale extends Remote {
     /**
      * Deze methode Zorgt dat de bank het bedrag afschrijft van de meegegeven rekening.
      * @param nrVan het rekeningsNummer van de rekening waar het geld van komt.

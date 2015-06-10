@@ -55,10 +55,19 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         }
 
         IKlant klant = getKlant(name, city);
-        IRekeningTbvBank account = new Rekening(nieuwReknr, klant, Money.EURO);
-        accounts.put(nieuwReknr, account);
-        nieuwReknr++;
-        return nieuwReknr - 1;
+        int newRek = -1;
+        try {
+            newRek = remoteCentraleBank.getNieuwRekNR();
+        } catch (RemoteException ex) {
+            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(newRek == -1){
+            return -1;
+        }
+        
+        IRekeningTbvBank account = new Rekening(newRek, klant, Money.EURO);
+        accounts.put(newRek, account);
+        return newRek;
     }
 
     private IKlant getKlant(String name, String city) {
