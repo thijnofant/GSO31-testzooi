@@ -21,7 +21,7 @@ public class CentraleRMI {
         CentraleRMI centrale = new CentraleRMI();
     }
 
-    public static final int poortNr = 1099;
+    public static final int poortNr = 1100;
     public static final String bindingName = "Centrale";
     
     CentraleBank overboekCentrale;

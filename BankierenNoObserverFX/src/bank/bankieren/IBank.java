@@ -23,7 +23,7 @@ public interface IBank extends RemotePublisher {
      * @return -1 zodra naam of plaats een lege string en anders het nummer van de
      *         gecreeerde bankrekening
      */
-    int openRekening(String naam, String plaats);
+    int openRekening(String naam, String plaats) throws RemoteException;
 
     /**
      * er wordt bedrag overgemaakt van de bankrekening met nummer bron naar de
@@ -41,18 +41,18 @@ public interface IBank extends RemotePublisher {
      *             als een van de twee bankrekeningnummers onbekend is
      */
     boolean maakOver(int bron, int bestemming, Money bedrag)
-            throws NumberDoesntExistException;
+            throws NumberDoesntExistException, RemoteException;
 
     /**
      * @param nr
      * @return de bankrekening met nummer nr mits bij deze bank bekend, anders null
      */
-    IRekening getRekening(int nr);
+    IRekening getRekening(int nr) throws RemoteException;
 
     /**
      * @return de naam van deze bank
      */
-    String getName();
+    String getName() throws RemoteException;
     
     @Override
     void addListener(RemotePropertyListener listener, String property)

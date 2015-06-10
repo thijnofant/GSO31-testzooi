@@ -7,6 +7,7 @@ package bank.centralebank;
 
 import bank.bankieren.Money;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -20,12 +21,12 @@ public interface ICentraleBank extends Remote{
      * @param amount het bedrag dat overgeschreven wordt
      * @return een Boolean die true is als de transactie voltooid is
      */
-    public boolean transactieTussenBanken(int source, int destination, Money amount);
+    public boolean transactieTussenBanken(int source, int destination, Money amount) throws RemoteException;
 
     /**
      * Deze methode haalt het nieuwste rekeningsnummer op.
      * @return returned een rekeningnummer.
      */
-    public int getNieuwRekNR();
+    public int getNieuwRekNR() throws RemoteException;
 
 }
