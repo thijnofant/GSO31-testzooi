@@ -61,6 +61,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         } catch (RemoteException ex) {
             Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("newRek: " + newRek);
         if(newRek == -1){
             return -1;
         }
