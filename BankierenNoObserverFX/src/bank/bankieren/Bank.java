@@ -185,13 +185,15 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
 
     @Override
     public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+        publisher.addProperty(property);
         publisher.addListener(listener, property);
         System.out.println("Listener toegevoegd aan bank: " + property);
     }
 
     @Override
     public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
-        publisher.addListener(listener, property);
+        publisher.removeProperty(property);
+        publisher.removeListener(listener, property);
     }
 
 }
