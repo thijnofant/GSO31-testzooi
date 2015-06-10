@@ -96,9 +96,19 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         if (!money.isPositive()) {
             throw new RuntimeException("money must be positive");
         }
-
+        boolean success = false;
+        
+        if (!rekeningVanBank(source)||!rekeningVanBank(destination)) {
+            try {
+                success = remoteCentraleBank.transactieTussenBanken(source, destination, money);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
         Money negative = Money.difference(new Money(0, money.getCurrency()),money);
-        boolean success;
+        
         
         success = Afschrijven(source, negative);
 
@@ -110,6 +120,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         {
             ((IRekeningTbvBank) getRekening(source)).muteer(money);
             return false;
+        }
         }
         return success;
     }
