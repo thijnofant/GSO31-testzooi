@@ -18,6 +18,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -140,6 +141,12 @@ implements Initializable, RemotePropertyListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         Money newSaldo = (Money) evt.getNewValue();
-        tfBalance.setText(newSaldo + "");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                tfBalance.setText(newSaldo + "");
+            }
+        });
+        
     }
 }
