@@ -11,6 +11,7 @@ import fontys.util.InvalidSessionException;
 import fontys.util.NumberDoesntExistException;
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import observer.BasicPublisher;
 import observer.RemotePropertyListener;
 import observer.RemotePublisher;
@@ -83,8 +84,9 @@ public class Bankiersessie extends UnicastRemoteObject implements
     @Override
     public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
         boolean propertyExists = false;
-        for (String s : (ArrayList<String>) publisher.getProperties()) {
-            if (s.equals(property)) {
+        Iterator<String> properties = publisher.getProperties();
+        while (properties.hasNext()) {
+            if (properties.next().equals(property)) {
                 propertyExists = true;
             }
         }
