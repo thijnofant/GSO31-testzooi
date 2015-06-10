@@ -14,6 +14,7 @@ import fontys.util.NumberDoesntExistException;
 import java.beans.PropertyChangeEvent;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,12 +58,13 @@ public class BankierSessieController implements Initializable, RemotePropertyLis
 
     public void setApp(BankierClient application, IBalie balie, IBankiersessie sessie) {
         this.balie = balie;
-        this.sessie = sessie;
+        this.sessie = sessie;     
         this.application = application;
         
         IRekening rekening = null;
         try {
             rekening = sessie.getRekening();
+            this.sessie.addListener(this, Integer.toString(rekening.getNr()));
             tfAccountNr.setText(rekening.getNr() + "");
             tfBalance.setText(rekening.getSaldo() + "");
             String eigenaar = rekening.getEigenaar().getNaam() + " te "

@@ -6,8 +6,11 @@ import bank.bankieren.IRekening;
 import bank.bankieren.Money;
 import fontys.util.InvalidSessionException;
 import fontys.util.NumberDoesntExistException;
+import java.beans.PropertyChangeEvent;
+import observer.RemotePropertyListener;
+import observer.RemotePublisher;
 
-public interface IBankiersessie extends Remote {
+public interface IBankiersessie extends Remote, RemotePropertyListener, RemotePublisher {
 	
 	long GELDIGHEIDSDUUR = 600000; 
 	/**
@@ -49,4 +52,15 @@ public interface IBankiersessie extends Remote {
 	 * @throws RemoteException
 	 */
 	IRekening getRekening() throws InvalidSessionException, RemoteException;
+        
+        @Override
+        void addListener(RemotePropertyListener listener, String property)
+            throws RemoteException;
+        
+        @Override
+        void removeListener(RemotePropertyListener listener, String property)
+            throws RemoteException;
+        
+        @Override
+        void propertyChange(PropertyChangeEvent evt) throws RemoteException;
 }

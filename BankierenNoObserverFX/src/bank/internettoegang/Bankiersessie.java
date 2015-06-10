@@ -9,19 +9,25 @@ import bank.bankieren.Money;
 
 import fontys.util.InvalidSessionException;
 import fontys.util.NumberDoesntExistException;
+import java.beans.PropertyChangeEvent;
+import observer.BasicPublisher;
+import observer.RemotePropertyListener;
+import observer.RemotePublisher;
 
 public class Bankiersessie extends UnicastRemoteObject implements
-		IBankiersessie {
+		IBankiersessie, RemotePropertyListener, RemotePublisher {
 
 	private static final long serialVersionUID = 1L;
 	private long laatsteAanroep;
 	private int reknr;
 	private IBank bank;
+        private BasicPublisher publisher;
 
 	public Bankiersessie(int reknr, IBank bank) throws RemoteException {
 		laatsteAanroep = System.currentTimeMillis();
 		this.reknr = reknr;
 		this.bank = bank;
+                this.publisher = new BasicPublisher(new String[]{});
 		
 	}
 
@@ -66,4 +72,19 @@ public class Bankiersessie extends UnicastRemoteObject implements
 	public void logUit() throws RemoteException {
 		UnicastRemoteObject.unexportObject(this, true);
 	}
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
+        publisher.inform(this, Integer.toString(reknr), null, (Money)evt.getNewValue());
+    }
+
+    @Override
+    public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+        publisher.addListener(listener, property);
+    }
+
+    @Override
+    public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
+        publisher.removeListener(listener, property);
+    }
 }
