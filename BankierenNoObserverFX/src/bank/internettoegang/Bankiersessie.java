@@ -83,15 +83,6 @@ public class Bankiersessie extends UnicastRemoteObject implements
 
     @Override
     public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
-        boolean propertyExists = false;
-        Iterator<String> properties = publisher.getProperties();
-        while (properties.hasNext()) {
-            if (properties.next().equals(property)) {
-                propertyExists = true;
-            }
-        }
-        if (!propertyExists)
-            publisher.addProperty(property);
         publisher.addListener(listener, property);
         System.out.println("Listener toegevoegd aan banksessie: " + property);
     }
