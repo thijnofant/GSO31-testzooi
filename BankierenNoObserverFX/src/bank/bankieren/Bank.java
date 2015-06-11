@@ -183,7 +183,10 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
 
     @Override
     public boolean rekeningVanBank(int rekNr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (getRekening(rekNr) != null){
+            return true;
+        }
+        return false;
     }
 
     @Override
