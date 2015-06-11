@@ -87,28 +87,38 @@ public class CentraleBank extends UnicastRemoteObject implements ICentraleBank{
         return null;
     }
     
+    @Override
     public void bindBanken(){
+        remoteBanken.clear();            
         try {
-            remoteBanken.clear();            
-            
             registry = LocateRegistry.getRegistry("localhost",1101);
-            remoteBanken.add((IBankForCentrale) registry.lookup("Rabobankb"));
-            
+            remoteBanken.add((IBankForCentrale) registry.lookup("RaboBankb"));
+        }
+        catch (Exception e) {
+        }
+        try {
             registry = LocateRegistry.getRegistry("localhost",1102);
             remoteBanken.add((IBankForCentrale) registry.lookup("INGb"));
-            
+        }
+        catch (Exception e) {
+        }
+        try {
             registry = LocateRegistry.getRegistry("localhost",1103);
             remoteBanken.add((IBankForCentrale) registry.lookup("SNSb"));
-            
+        }
+        catch (Exception e) {
+        }
+        try {
             registry = LocateRegistry.getRegistry("localhost",1104);
             remoteBanken.add((IBankForCentrale) registry.lookup("ABN AMBROb"));
-            
+        }
+        catch (Exception e) {
+        }
+        try {
             registry = LocateRegistry.getRegistry("localhost",1105);
             remoteBanken.add((IBankForCentrale) registry.lookup("ASNb"));
-        } catch (RemoteException ex) {
-            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NotBoundException ex) {
-            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (Exception e) {
         }
     }
 }

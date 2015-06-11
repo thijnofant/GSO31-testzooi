@@ -96,7 +96,9 @@ public class BalieServer extends Application {
             
             register.rebind(nameBank, balie);
             register.rebind(nameBank + "b", forLookUp);
-
+            
+            forLookUp.bindBank();
+            
             return true;
 
         } catch (IOException ex) {

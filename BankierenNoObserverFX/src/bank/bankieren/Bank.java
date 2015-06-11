@@ -37,9 +37,12 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         this.name = name;
         this.publisher = new BasicPublisher(new String[]{});
         bindCentraleBank();
-        remoteCentraleBank.bindBanken();
     }
-
+    
+    public void bindBank() throws RemoteException {
+        remoteCentraleBank.bindBanken(); 
+    }
+    
     public void bindCentraleBank(){
         try {
             registry = LocateRegistry.getRegistry("localhost",1100);
