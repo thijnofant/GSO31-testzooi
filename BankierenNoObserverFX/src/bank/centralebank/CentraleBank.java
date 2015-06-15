@@ -57,7 +57,7 @@ public class CentraleBank extends UnicastRemoteObject implements ICentraleBank{
         IBankForCentrale sourcebank = getBankByRekNr(source);
         IBankForCentrale destbank = getBankByRekNr(destination);
         
-        success1 = sourcebank.Afschrijven(source, amount);
+        success1 = sourcebank.Afschrijven(source, negative);
 
         if (success1){
             success2 = destbank.Bijschrijven(destination, amount);
