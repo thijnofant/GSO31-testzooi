@@ -100,6 +100,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
             throw new RuntimeException("money must be positive");
         }
         boolean success = false;
+        boolean success2 = false;
         
         if (!rekeningVanBank(source)||!rekeningVanBank(destination)) {
             try {
@@ -112,14 +113,16 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         {
         Money negative = Money.difference(new Money(0, money.getCurrency()),money);
         
-        
         success = Afschrijven(source, negative);
 
         if (success){
-            success = Bijschrijven(destination, money);
+            success2 = Bijschrijven(destination, money);
+        }
+        else{
+            return false;
         }
 
-        if (!success) // rollback
+        if (!success2 && success) // rollback
         {
             ((IRekeningTbvBank) getRekening(source)).muteer(money);
             return false;
@@ -135,7 +138,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
 
     @Override
     public boolean Afschrijven(int nrVan, Money amount) {
-        boolean success = true;
+        boolean success = false;
         IRekeningTbvBank source_account = (IRekeningTbvBank) getRekening(nrVan);
         if (source_account == null) {
             try {
@@ -150,13 +153,9 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
         synchronized (getRekening(nrVan)) {
             success = source_account.muteer(amount);
         }
-
-        if (!success) {
-            return false;
-        }
         publisher.addProperty(Integer.toString(nrVan));
         publisher.inform(this, Integer.toString(nrVan), null, getRekening(nrVan).getSaldo());
-        return true;
+        return success;
     }
 
     @Override

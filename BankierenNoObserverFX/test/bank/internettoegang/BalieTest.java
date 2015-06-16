@@ -57,6 +57,12 @@ public class BalieTest {
         String result = instance.openRekening(naam, plaats, wachtwoord);
         assertNotNull("AccountNaam is null",result);
         assertEquals("AccountNaam is niet lang genoeg",8, result.length());
+        
+        testBank.getRekening(reknr).getEigenaar().getNaam();
+        testBank.getRekening(reknr).getEigenaar().getPlaats();
+        
+        IBankiersessie sessie = instance.logIn(accountnaam, wachtwoord);
+        assertNotNull("Acountnaam of wachtwoord kloppen niet", sessie);
     }
 
     /**

@@ -36,6 +36,15 @@ public class BankTest {
         int expResult = instance.remoteCentraleBank.getNieuwRekNR()+1;
         int result = instance.openRekening(name, city);
         assertEquals("OpenRekening fail",expResult, result);
+        
+        name = "";
+        result = instance.openRekening(name, city);
+        assertEquals("Name cannot be emptie",-1, result);
+        
+        name = "test";
+        city = "";
+        result = instance.openRekening(name, city);
+        assertEquals("Place cannot be emptie",-1, result);
     }
 
     /**
@@ -72,6 +81,26 @@ public class BankTest {
         assertEquals("transaction failed according to method",expResult, result);
         assertEquals("saldo not correct source", expMoneyResSource, ResultSource);
         assertEquals("saldo not correct destination", expMoneyResDestination, ResultDestination);
+        
+        //niet naar zelf
+        try {
+            result = instance.maakOver(source, source, money);
+            fail("Je mag niet naar jezelf overmaken");
+        } catch (Exception e) {
+        }
+        
+        //niet negatief       
+        try {
+            Money neg = new Money(-10, Money.EURO);
+            result = instance.maakOver(source, destination, neg);
+            fail("Je mag geen negatief bedrag overmaken");
+        } catch (Exception e) {
+        }
+        
+        //niet meer dan kredietlimit
+        Money tooMuch = new Money(100000, Money.EURO);
+        result = instance.maakOver(source, destination, tooMuch);
+        assertFalse("Je mag niet meer dan je kridiet limiet overmaken", result);
     }
 
     /**
