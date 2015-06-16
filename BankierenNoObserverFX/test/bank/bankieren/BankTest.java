@@ -39,12 +39,12 @@ public class BankTest {
         
         name = "";
         result = instance.openRekening(name, city);
-        assertEquals("Name cannot be emptie",-1, result);
+        assertEquals("Name cannot be empty",-1, result);
         
         name = "test";
         city = "";
         result = instance.openRekening(name, city);
-        assertEquals("Place cannot be emptie",-1, result);
+        assertEquals("Place cannot be empty",-1, result);
     }
 
     /**
