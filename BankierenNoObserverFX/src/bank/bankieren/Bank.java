@@ -22,7 +22,7 @@ public class Bank extends UnicastRemoteObject implements IBank, IBankForCentrale
      *
      */
     private static final long serialVersionUID = -8728841131739353765L;
-    private ICentraleBank remoteCentraleBank;
+    public ICentraleBank remoteCentraleBank;
     private Registry registry;
     private Map<Integer, IRekeningTbvBank> accounts;
     private Collection<IKlant> clients;

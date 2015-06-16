@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
  */
 public class BankTest {
     
+    
     public BankTest() {
     }
     
@@ -32,7 +33,7 @@ public class BankTest {
         String name = "testPers1";
         String city = "Eindhoven";
         Bank instance = new Bank("testbank1");
-        int expResult = 100000000;
+        int expResult = instance.remoteCentraleBank.getNieuwRekNR()+1;
         int result = instance.openRekening(name, city);
         assertEquals("OpenRekening fail",expResult, result);
     }
