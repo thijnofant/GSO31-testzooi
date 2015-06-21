@@ -37,7 +37,7 @@ import timeutil.TimeStamp;
  *
  * @author Nico Kuijpers
  */
-public class JSF31KochFractalFX extends Application {
+public class JSF32W5KochClient extends Application {
     
     // Zoom and drag
     private double zoomTranslateX = 0.0;

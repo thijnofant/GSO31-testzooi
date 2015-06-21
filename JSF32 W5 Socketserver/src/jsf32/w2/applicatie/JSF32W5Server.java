@@ -25,7 +25,7 @@ import java.util.Scanner;
  *
  * @author jsf3
  */
-public class JSF32W2Applicatie implements Observer {
+public class JSF32W5Server implements Observer {
     private int kochLevel = 0;
     private int schrijfModus = 0;
     private KochFractal kochFractal = new KochFractal();
@@ -33,7 +33,7 @@ public class JSF32W2Applicatie implements Observer {
     private final Scanner in = new Scanner(System.in);
     
     public static void main(String[] args) {
-        JSF32W2Applicatie applicatie = new JSF32W2Applicatie();
+        JSF32W5Server applicatie = new JSF32W5Server();
         applicatie.run();
     }
     
