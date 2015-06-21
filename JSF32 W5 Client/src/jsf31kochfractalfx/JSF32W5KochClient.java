@@ -5,18 +5,8 @@
 package jsf31kochfractalfx;
 
 import calculate.*;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.ObjectInputStream;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileChannel.MapMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -53,7 +43,7 @@ public class JSF32W5KochClient extends Application {
     // private KochManager kochManager;
     
     // Current level of Koch fractal
-    private int currentLevel = 1;
+    private int currentLevel = 0;
     private List<Edge> edges = new ArrayList<>();
     private List<SerializableEdge> sedges = new ArrayList<>();
     
@@ -109,76 +99,66 @@ public class JSF32W5KochClient extends Application {
         
         // Label to present current level of Koch fractal
         labelLevel = new Label("Level: " + currentLevel);
-        grid.add(labelLevel, 0, 6);
+        grid.add(labelLevel, 0, 8);
         
         // Bittons die bestanden uitlezen.
         Button openBin = new Button();
-        openBin.setText("Open binair");
+        openBin.setText("+ Level");
         openBin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                openBinair(event);
+                requestIncreaseLevel();
             }            
         });
-        grid.add(openBin, 3, 4);
+        grid.add(openBin, 0, 4);
         
         Button openBinBuffer = new Button();
-        openBinBuffer.setText("Open binair buffer");
+        openBinBuffer.setText("- Level");
         openBinBuffer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                openBinairBuffer(event);
+                requestDecreaseLevel();
             }
         });
-        grid.add(openBinBuffer, 4, 4);
+        grid.add(openBinBuffer, 0, 5);
         
         Button openTekst = new Button();
-        openTekst.setText("Open tekst");
+        openTekst.setText("+ Level Real Time");
         openTekst.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                openTekst(event);
+                requestIncreaseLevelReal();
             }
         });
-        grid.add(openTekst, 3, 6);
+        grid.add(openTekst, 0, 6);
         
         Button openTekstBuffer = new Button();
-        openTekstBuffer.setText("Open tekst buffer");
+        openTekstBuffer.setText("- Level Real Time");
         openTekstBuffer.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                openTekstBuffer(event);
+                requestDecreaseLevelReal();
             }
         });
-        grid.add(openTekstBuffer, 4, 6);
-        
-        Button openMemMapped = new Button();
-        openMemMapped.setText("Open memory mapped");
-        openMemMapped.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                openMemMapped(event);
-            }
-        });
-        grid.add(openMemMapped, 3, 7);
+        grid.add(openTekstBuffer, 0, 7);
                
-        // Add mouse clicked event to Koch panel
-        kochPanel.addEventHandler(MouseEvent.MOUSE_CLICKED,
-            new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    kochPanelMouseClicked(event);
-                }
-            });
+//        // Add mouse clicked event to Koch panel
+//        kochPanel.addEventHandler(MouseEvent.MOUSE_CLICKED,
+//            new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent event) {
+//                    kochPanelMouseClicked(event);
+//                }
+//            });
         
-        // Add mouse pressed event to Koch panel
-        kochPanel.addEventHandler(MouseEvent.MOUSE_PRESSED,
-            new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    kochPanelMousePressed(event);
-                }
-            });
+//        // Add mouse pressed event to Koch panel
+//        kochPanel.addEventHandler(MouseEvent.MOUSE_PRESSED,
+//            new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent event) {
+//                    kochPanelMousePressed(event);
+//                }
+//            });
         
         // Add mouse dragged event to Koch panel
         kochPanel.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -189,13 +169,13 @@ public class JSF32W5KochClient extends Application {
         });
         
         // Create Koch manager and set initial level
-        resetZoom();
+        //resetZoom();
         //kochManager = new KochManager(this);
         //kochManager.changeLevel(currentLevel);
         
         // Create the scene and add the grid pane
         Group root = new Group();
-        Scene scene = new Scene(root, kpWidth+50, kpHeight+240);
+        Scene scene = new Scene(root, kpWidth+50, kpHeight+280);
         root.getChildren().add(grid);
         
         // Define title and assign the scene for main window
@@ -217,10 +197,10 @@ public class JSF32W5KochClient extends Application {
         GraphicsContext gc = kochPanel.getGraphicsContext2D();
         
         // Adjust edge for zoom and drag
-        Edge e1 = edgeAfterZoomAndDrag(e);
+        // Edge e1 = edgeAfterZoomAndDrag(e);
         
         // Set line color
-        gc.setStroke(e1.color);
+        gc.setStroke(e.color);
         
         // Set line width depending on level
         if (currentLevel <= 3) {
@@ -234,7 +214,7 @@ public class JSF32W5KochClient extends Application {
         }
         
         // Draw line
-        gc.strokeLine(e1.X1,e1.Y1,e1.X2,e1.Y2);
+        gc.strokeLine(e.X1,e.Y1,e.X2,e.Y2);
     }
     
     public void setTextNrEdges(String text) {
@@ -258,21 +238,21 @@ public class JSF32W5KochClient extends Application {
         });
     }
     
-    private void kochPanelMouseClicked(MouseEvent event) {
-        if (Math.abs(event.getX() - startPressedX) < 1.0 && 
-            Math.abs(event.getY() - startPressedY) < 1.0) {
-            double originalPointClickedX = (event.getX() - zoomTranslateX) / zoom;
-            double originalPointClickedY = (event.getY() - zoomTranslateY) / zoom;
-            if (event.getButton() == MouseButton.PRIMARY) {
-                zoom *= 2.0;
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                zoom /= 2.0;
-            }
-            zoomTranslateX = (int) (event.getX() - originalPointClickedX * zoom);
-            zoomTranslateY = (int) (event.getY() - originalPointClickedY * zoom);
-            drawEdges();
-        }
-    }                                      
+//    private void kochPanelMouseClicked(MouseEvent event) {
+//        if (Math.abs(event.getX() - startPressedX) < 1.0 && 
+//            Math.abs(event.getY() - startPressedY) < 1.0) {
+//            double originalPointClickedX = (event.getX() - zoomTranslateX) / zoom;
+//            double originalPointClickedY = (event.getY() - zoomTranslateY) / zoom;
+//            if (event.getButton() == MouseButton.PRIMARY) {
+//                zoom *= 2.0;
+//            } else if (event.getButton() == MouseButton.SECONDARY) {
+//                zoom /= 2.0;
+//            }
+//            zoomTranslateX = (int) (event.getX() - originalPointClickedX * zoom);
+//            zoomTranslateY = (int) (event.getY() - originalPointClickedY * zoom);
+//            drawEdges();
+//        }
+//    }                                      
 
     private void kochPanelMouseDragged(MouseEvent event) {
         zoomTranslateX = zoomTranslateX + event.getX() - lastDragX;
@@ -282,159 +262,43 @@ public class JSF32W5KochClient extends Application {
         drawEdges();
     }
 
-    private void kochPanelMousePressed(MouseEvent event) {
-        startPressedX = event.getX();
-        startPressedY = event.getY();
-        lastDragX = event.getX();
-        lastDragY = event.getY();
-    }                                                                        
-
-    private void resetZoom() {
-        int kpSize = Math.min(kpWidth, kpHeight);
-        zoom = kpSize;
-        zoomTranslateX = (kpWidth - kpSize) / 2.0;
-        zoomTranslateY = (kpHeight - kpSize) / 2.0;
-    }
-
-    private Edge edgeAfterZoomAndDrag(Edge e) {
-        return new Edge(
-                e.X1 * zoom + zoomTranslateX,
-                e.Y1 * zoom + zoomTranslateY,
-                e.X2 * zoom + zoomTranslateX,
-                e.Y2 * zoom + zoomTranslateY,
-                e.color);
+//    private void kochPanelMousePressed(MouseEvent event) {
+//        startPressedX = event.getX();
+//        startPressedY = event.getY();
+//        lastDragX = event.getX();
+//        lastDragY = event.getY();
+//    }                                                                        
+//
+//    private void resetZoom() {
+//        int kpSize = Math.min(kpWidth, kpHeight);
+//        zoom = kpSize;
+//        zoomTranslateX = (kpWidth - kpSize) / 2.0;
+//        zoomTranslateY = (kpHeight - kpSize) / 2.0;
+//    }
+//
+//    private Edge edgeAfterZoomAndDrag(Edge e) {
+//        return new Edge(
+//                e.X1 * zoom + zoomTranslateX,
+//                e.Y1 * zoom + zoomTranslateY,
+//                e.X2 * zoom + zoomTranslateX,
+//                e.Y2 * zoom + zoomTranslateY,
+//                e.color);
+//    }
+    
+    private void requestIncreaseLevel() {
+        
     }
     
-    private void openBinair(ActionEvent event) {
-        try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-                "/home/jsfmountpoint/bingeenbuffer"));
-            TimeStamp ts = new TimeStamp();
-            ts.setBegin("Begin lezen");
-            currentLevel = in.readInt();
-            int edgeAmount = in.readInt();
-            edges.clear();
-            sedges.clear();
-            for (int i = 0; i < edgeAmount; i++) {
-                sedges.add((SerializableEdge)in.readObject());
-            }
-            in.close();
-            ts.setEnd("eind lezen");
-            labelCalc.setText(ts.toString());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        converteerEdges();
-        drawEdges();
+    private void requestDecreaseLevel() {
+        
     }
     
-    private void openBinairBuffer(ActionEvent event) {
-        try {
-            BufferedInputStream bin = new BufferedInputStream(new FileInputStream(
-                "/home/jsfmountpoint/binbuffer"));
-            ObjectInputStream in = new ObjectInputStream(bin);
-            TimeStamp ts = new TimeStamp();
-            ts.setBegin("Begin lezen");
-            currentLevel = in.readInt();
-            int edgeAmount = in.readInt();
-            edges.clear();
-            sedges.clear();
-            for (int i = 0; i < edgeAmount; i++) {
-                sedges.add((SerializableEdge)in.readObject());
-            }
-            in.close();
-            bin.close();
-            ts.setEnd("eind lezen");
-            labelCalc.setText(ts.toString());          
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        converteerEdges();
-        drawEdges();
+    private void requestIncreaseLevelReal() {
+        
     }
     
-    private void openTekst(ActionEvent event) {
-        try {
-            FileReader fr = new FileReader("/home/jsfmountpoint/tekstgeenbuffer");
-            Scanner sc = new Scanner(fr);
-            TimeStamp ts = new TimeStamp();
-            ts.setBegin("Begin lezen");
-            currentLevel = sc.nextInt();
-            int edgeAmount = sc.nextInt();
-            edges.clear();
-            sedges.clear();
-            for (int i = 0; i < edgeAmount; i++) {
-                sedges.add(new SerializableEdge(sc.nextDouble(), sc.nextDouble(),
-                    sc.nextDouble(), sc.nextDouble(), 
-                    Color.color(sc.nextDouble(), sc.nextDouble(), sc.nextDouble())));
-            }
-            sc.close();
-            fr.close();
-            ts.setEnd("eind lezen");
-            labelCalc.setText(ts.toString());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        converteerEdges();
-        drawEdges();
-    }
-    
-    private void openTekstBuffer(ActionEvent event) {
-        try {
-            FileReader fr = new FileReader("/home/jsfmountpoint/tekstbuffer");
-            BufferedReader bfr = new BufferedReader(fr);
-            Scanner sc = new Scanner(bfr);
-            TimeStamp ts = new TimeStamp();
-            ts.setBegin("Begin lezen");
-            currentLevel = sc.nextInt();
-            int edgeAmount = sc.nextInt();
-            edges.clear();
-            sedges.clear();
-            for (int i = 0; i < edgeAmount; i++) {
-                sedges.add(new SerializableEdge(sc.nextDouble(), sc.nextDouble(),
-                    sc.nextDouble(), sc.nextDouble(), 
-                    Color.color(sc.nextDouble(), sc.nextDouble(), sc.nextDouble())));
-            }
-            sc.close();
-            fr.close();
-            ts.setEnd("eind lezen");
-            labelCalc.setText(ts.toString());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        converteerEdges();
-        drawEdges();
-    }
-    
-    private void openMemMapped(ActionEvent event) {
-        try {
-            RandomAccessFile ras = 
-                    new RandomAccessFile("/home/jsfmountpoint/memorymapped", "r");
-            FileChannel fc = ras.getChannel();
-            MappedByteBuffer out = fc.map(MapMode.READ_ONLY, 0, ras.length());
-            TimeStamp ts = new TimeStamp();
-            ts.setBegin("Begin lezen");
-            currentLevel = out.getInt();
-            int edgeAmount = out.getInt();
-            for(int i = 0; i < edgeAmount; i++) {
-                sedges.add(new SerializableEdge(out.getDouble(), out.getDouble(),
-                    out.getDouble(), out.getDouble(), Color.color(out.getDouble(),
-                    out.getDouble(), out.getDouble())));
-            }
-            fc.close();
-            ras.close();
-            ts.setEnd("eind lezen");
-            labelCalc.setText(ts.toString());
-        }
-        catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        converteerEdges();
-        drawEdges();
+    private void requestDecreaseLevelReal() {
+        
     }
     
     private void converteerEdges() {
