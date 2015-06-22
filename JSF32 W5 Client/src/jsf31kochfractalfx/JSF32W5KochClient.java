@@ -5,6 +5,9 @@
 package jsf31kochfractalfx;
 
 import calculate.*;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -286,7 +289,16 @@ public class JSF32W5KochClient extends Application {
 //    }
     
     private void requestIncreaseLevel() {
-        
+        try {
+            Socket client = new Socket("localhost", 1100);
+            OutputStream out = client.getOutputStream();
+            OutputStreamWriter writer = new OutputStreamWriter(out);
+            writer.write("calc");
+            out.close();
+        }
+        catch (Exception e) {
+            
+        }
     }
     
     private void requestDecreaseLevel() {

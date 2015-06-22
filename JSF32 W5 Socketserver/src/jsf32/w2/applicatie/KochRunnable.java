@@ -36,18 +36,20 @@ public class KochRunnable implements Runnable, Observer {
     public void run() {
         try {
             try {
+                System.out.println("New thread started.");
                 InputStream inStream = client.getInputStream();
                 Scanner inScanner = new Scanner(inStream);
                 
                 boolean validRequest = false;
                 while (!validRequest) {
                     protocol = inScanner.nextLine();
-                    if (protocol.matches("calc|calcRealTime|zoom")){
+                    System.out.println(protocol);
+                    if (protocol.matches("calc|calcRealTime|zoom")) {
                         validRequest = true;
                     }
                 }
                 
-                
+                System.out.println("Request recieved.");
             }
             finally {
                 client.close();
