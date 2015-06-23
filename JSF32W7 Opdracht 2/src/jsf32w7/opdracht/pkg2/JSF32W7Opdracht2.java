@@ -22,18 +22,18 @@ public class JSF32W7Opdracht2 {
         IntByReference bytesPerSector = new IntByReference();
         IntByReference freeClusters = new IntByReference();
         IntByReference totalClusters = new IntByReference();
-        int totalFreeSpace;
+        long totalFreeSpace;
         
         lib.GetDiskFreeSpaceA("C:\\", sectorsPerCluster, bytesPerSector, 
                 freeClusters, totalClusters);
         
-        totalFreeSpace = freeClusters.getValue() * sectorsPerCluster.getValue()
-                * (bytesPerSector.getValue()/1000);
+        totalFreeSpace = (long)freeClusters.getValue() * (long)sectorsPerCluster.getValue()
+                * (long)bytesPerSector.getValue();
         
         System.out.println("Free clusters: " + freeClusters.getValue() + "\n"
                             + "Sectors per cluster: " + sectorsPerCluster.getValue() + "\n"
                             + "Bytes per sector: " + bytesPerSector.getValue() + "\n");
-        System.out.println("Free disk space = " + totalFreeSpace + " kbytes");
+        System.out.println("Free disk space = " + totalFreeSpace + " bytes");
     }
     
 }
